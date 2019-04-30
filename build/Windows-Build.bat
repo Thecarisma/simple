@@ -380,9 +380,6 @@ exit /b %ERRORLEVEL%
 	exit /b 0
 
 :configure
-
-	REM travis has everything so you have to configure your system 
-	exit /b 0
 	call:display configure "configure build %VERSION%"
 	echo simple-lang:configure:buildtool determining if a specific tool is specified
 	if !BUILD_TOOL!=="any" (
