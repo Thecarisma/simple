@@ -255,6 +255,9 @@ REM 	call:locategcc !BUILD_ARC!
 if !BUILD_TOOL!=="any" (
 	call:configure
 )
+echo !NO_BUILDTOOL!
+echo !NO_BUILDTOOL!
+echo !NO_BUILDTOOL!
 if !NO_BUILDTOOL!=="true" (
 	echo error:simple-lang:configure: no C/C++ compiler to found 
 	echo error:simple-lang:configure: re-build with no C/C++ compiler flag to find available build tool 
