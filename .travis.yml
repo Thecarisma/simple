@@ -8,6 +8,8 @@ os:
 compiler:
   - gcc
   
+sudo: false
+  
 before_script:
   -  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
   -  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash build/Mac-Build.sh -c; fi

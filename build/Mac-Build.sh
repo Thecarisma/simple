@@ -430,7 +430,7 @@ configure() {
 	sudo brew install openssl
 	case $cpu_arc in
 			*64* )
-				#sudo brew install libfltk1.3-dev:i386
+				sudo brew install fltk:i386
 			;;
 	esac
 }
