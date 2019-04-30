@@ -250,14 +250,11 @@ if !BUILD_TOOL!=="cygwin" (
 if !BUILD_TOOL!=="gcc" (
 REM 	call:display configure "configure build %VERSION%"
 REM 	call:locategcc !BUILD_ARC!
-	!NO_BUILDTOOL!=="false"
+	SET NO_BUILDTOOL="false"
 )
 if !BUILD_TOOL!=="any" (
 	call:configure
 )
-echo !NO_BUILDTOOL!
-echo !NO_BUILDTOOL!
-echo !NO_BUILDTOOL!
 if !NO_BUILDTOOL!=="true" (
 	echo error:simple-lang:configure: no C/C++ compiler to found 
 	echo error:simple-lang:configure: re-build with no C/C++ compiler flag to find available build tool 
