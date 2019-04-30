@@ -6,6 +6,9 @@ os:
 
 compiler:
   - gcc
+  
+before_script:
+  - sudo bash build/Linux-Build.sh -c
 
 script:
-  - sudo bash build/Linux-Build.sh x64 -d
+  - sudo bash build/Linux-Build.sh x64 -i
