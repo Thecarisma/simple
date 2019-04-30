@@ -524,7 +524,10 @@ REM BULDING SIMPLE.EXE and SIMPLE.DLL
 		)
 		exit /b 0
 	) else (
+		echo pass one
 		if exist "..\simple\makefiles\Makefile-Windows.mk" (
+			echo pass 2
+			make
 			cd "..\simple\makefiles"
 			echo simple: building libsimple.dll and simple.exe
 			make -f Makefile-Windows.mk ARC_FLAG=!GCC_ARC_VAR! ARC=!ARC!

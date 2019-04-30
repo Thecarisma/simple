@@ -24,7 +24,7 @@ script:
   
   #build for windows 
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x86 -d --gnu; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x64 -d --gnu; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x64 -d --gnu; fi
   
   #build for linux 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
