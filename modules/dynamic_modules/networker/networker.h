@@ -15,6 +15,8 @@
 #ifndef NETWORKER_H
 #define NETWORKER_H
 
+#define CURL_SIZEOF_LONG 4
+
 //we don't want openssl to stop build
 #if !defined(__imp___acrt_iob_func) && defined(_WIN32)
 FILE * __cdecl __imp___acrt_iob_func(int index)
