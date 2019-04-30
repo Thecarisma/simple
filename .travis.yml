@@ -8,8 +8,8 @@ compiler:
   - gcc
   
 before_script:
-  #- sudo bash build/Linux-Build.sh -c
+  - sudo bash build/Linux-Build.sh -c
 
 script:
   - cd build/
-  - sudo bash Linux-Build.sh x86 -i -so
+  - sudo bash Linux-Build.sh x64 -i -so
