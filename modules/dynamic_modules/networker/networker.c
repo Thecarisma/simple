@@ -12,6 +12,10 @@
  * Created on February 12, 2018, 2:18 AM
  */
 
+
+#define CURL_SIZEOF_LONG 4
+
+
 #include "../../../simple/include/simple.h"
 #include <curl/curl.h>
 #include "networker.h"
