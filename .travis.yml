@@ -2,21 +2,30 @@
 language: c
   
 os:
+  - windows
   #- linux
-  - osx
+  #- osx
 
 compiler:
   - gcc
   
 before_script:
+  -  if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then bash build/Windows-Build.bat -c; fi
   -  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
   -  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash build/Mac-Build.sh -c; fi
 
 script:
   - cd build/
+  
+  #build for windows 
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then bash Windows-Build.bat x86 -i; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then bash Windows-Build.bat x64 -i; fi
+  
+  #build for linux 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x64 -i; fi
   
+  #build for macos 
   #since macOS has been 64-bit only since 10.6 there is no need to build 32 bit version 
   #if there is an exception to build 32 bit version, the repo should be cloned and 
   #built from source 
