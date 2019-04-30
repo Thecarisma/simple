@@ -18,6 +18,8 @@ SET GCC_ARC_VAR=-m32
 SET ARC=32
 SET USE_LATEST_VS="true"
 
+gcc -v
+
 for %%x in (%*) do (
 	if "%%x"=="--configure" (
 		if !EXEC_TYPE!=="install" (
