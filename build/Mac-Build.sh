@@ -425,9 +425,9 @@ uninstall() {
 configure() {
 	header configure "configure build $version"
 	#MACOSX I believe comes with C/C++ tool chains
-	brew install fltk --universal
-	brew install curl --universal
-	brew install openssl --universal
+	brew install fltk
+	brew install curl
+	brew install openssl
 }
 
 check_if_is_sudo() {

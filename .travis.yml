@@ -17,5 +17,8 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x64 -i; fi
   
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash Mac-Build.sh x86 -i; fi
+  #since macOS has been 64-bit only since 10.6 there is no need to build 32 bit version 
+  #if there is an exception to build 32 bit version, the repo should be cloned and 
+  #built from source 
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash Mac-Build.sh x86 -i; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash Mac-Build.sh x64 -i; fi
