@@ -247,10 +247,11 @@ if !BUILD_TOOL!=="cygwin" (
 	call:display configure "configure build %VERSION%"
 	call:locatecygwin !BUILD_ARC!
 )
-REM if !BUILD_TOOL!=="gcc" (
+if !BUILD_TOOL!=="gcc" (
 REM 	call:display configure "configure build %VERSION%"
 REM 	call:locategcc !BUILD_ARC!
-REM  )
+	!NO_BUILDTOOL!=="false"
+)
 if !BUILD_TOOL!=="any" (
 	call:configure
 )
