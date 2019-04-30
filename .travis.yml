@@ -12,4 +12,4 @@ before_script:
 
 script:
   - cd build/
-  - sudo bash Linux-Build.sh x86 -i -so
+  - sudo bash Linux-Build.sh x86 -i
