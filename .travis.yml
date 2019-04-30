@@ -1,14 +1,14 @@
 
 language: c
   
+sudo: false
+  
 os:
   #- linux
   - osx
 
 compiler:
   - gcc
-  
-sudo: false
   
 before_script:
   -  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
