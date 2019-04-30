@@ -1,0 +1,25 @@
+/* 
+	Copyright (c) 2016-2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple 
+
+*/
+
+from archive.zip.ZipEntry
+from archive.zip.Zip
+from simple.util.Console
+import simple.core
+
+block main()
+	zip = new Zip("../../../testfiles/test_zip.zip", "r") 
+	for entry in zip {
+		stdout.println(strCopy("=",40))
+		stdout.println("FullName="+entry.FullName)
+		stdout.println("Index="+entry.Index)
+		stdout.print("DateTime=") stdout.println(entry.DateTime)
+		stdout.println("CompressSize="+entry.CompressSize)
+		stdout.println("Size="+entry.Size)
+	}
+	stdout.println(strCopy("=",40))
+	
+	
+	

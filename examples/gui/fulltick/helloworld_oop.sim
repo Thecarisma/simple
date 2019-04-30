@@ -1,11 +1,11 @@
 /*
 
 */
-call fulltick.FApp
-call fulltick.widgets.FWindow
-call fulltick.widgets.FButton
+from fulltick.FApp
+from fulltick.widgets.FWindow
+from fulltick.widgets.FButton
 import simple.core
-import imple.system
+import simple.system
 import fulltick.base
 import fulltick.widgets
 import fulltick.painting

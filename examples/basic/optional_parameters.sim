@@ -1,0 +1,24 @@
+/*
+	:copyright: 2018-2019, Azeez Adewale
+	:license: MIT License Copyright (c) 2018 simple
+	:author: Azeez Adewale <azeezadewale98@gmail.com>
+	:date: 13 April 2019
+	:time: 02:55 PM
+	:filename: optional_parameters.sim
+*/
+
+printStr([ :text = "Hello World", :suffix = ".txt", :pos = 20 ])
+printStr([ :text = "Hello World", :suffix = ".txt" ])
+printStr([ :text = "Hello World" ])
+printStr([])
+
+block printStr(params)
+        text = params["text"]
+        suffix = params["suffix"]
+        pos = params["pos"]
+
+	if lengthOf(suffix) > 0 {
+		text = text + suffix
+        }
+
+	display (text+nl)

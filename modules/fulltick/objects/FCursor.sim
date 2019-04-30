@@ -3,8 +3,8 @@
 /*
 
 */
-call simple.debugging.Throw
-import simple.core, simple.system, simple.utilities
+from simple.debugging.Throw
+import simple.core, simple.system, simple.util
 
 /*
 
@@ -146,7 +146,7 @@ class FCursor : Object
     /*
 
     */#to accept image
-    block FCursor(params...)
+    block init(params...)
         paramsLen = lengthOf(params) 
         cursor = null
         cursorName = "UnknownCuursor"

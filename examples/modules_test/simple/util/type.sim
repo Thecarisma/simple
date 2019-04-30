@@ -1,0 +1,89 @@
+/* 
+	Copyright (c) 2017-2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple 
+	Type.sim
+
+*/
+from simple.util.Console
+from simple.util.Type
+
+block main()
+	str = "asas6565sas32a"
+	alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	alphal = "abcdefghijklmnopqrstuvwxyz"
+	digit = 0123456789
+	space = "        "
+	hex = "0123456789abcdef"
+	punct = "#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+	control = nl+crlf+tab
+	list = [str,alpha,space,hex,alphal,digit,punct,control]
+	listLen = lengthOf(list) - 1
+	
+	stdout.println("checking the following values")
+	for a = 0 to listLen {
+		stdout.print(" " + list[a])
+	}
+	
+	stdout.print("\nAlphaNum")
+	for a = 0 to listLen {
+		stdout.print("	" + isAlphaNum(list[a]))
+	}
+	
+	stdout.print("\nAlpha")
+	for a = 0 to listLen {
+		stdout.print("	" + isAlpha(list[a]))
+	}
+	
+	stdout.print("\nDigit")
+	for a = 0 to listLen {
+		stdout.print("	" + isDigit(list[a]))
+	}
+	
+	stdout.print("\nControl")
+	for a = 0 to listLen {
+		stdout.print("	" + isControlChar(list[a]))
+	}
+	
+	stdout.print("\nGraph")
+	for a = 0 to listLen {
+		stdout.print("	" + isGraphical(list[a]))
+	}
+	
+	stdout.print("\nLower")
+	for a = 0 to 4 {
+		stdout.print("	" + isLowerCase(list[a]))
+	}
+	
+	stdout.print("\nUpper")
+	for a = 0 to 4 {
+		stdout.print("	" + isUpperCase(list[a]))
+	}
+	
+	stdout.print("\nPrintable")
+	for a = 0 to listLen {
+		stdout.print("	" + isPrintable(list[a]))
+	}
+	
+	stdout.print("\nSpace")
+	for a = 0 to listLen {
+		try {
+			stdout.print("	" + __isWhiteSpace(list[a])+' '+isWhiteSpace(list[a]))
+		catch
+			continue
+		}
+	}
+	
+	stdout.print("\nPunct")
+	for a = 0 to listLen {
+		stdout.print("	" + isPunctuation(list[a]))
+	}
+	
+	stdout.print("\nHexDigit")
+	for a = 0 to listLen {
+		stdout.print("	" + isHexDigit(list[a]))
+	}
+	stdout.println()
+	
+	
+	
+	

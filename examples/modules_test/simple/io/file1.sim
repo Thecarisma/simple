@@ -1,0 +1,32 @@
+/* 
+	Copyright (c) 2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple-lang
+*/
+
+/* 
+ * @Filename - filedemo2.sim
+ * @Author - Azeez Adewale
+ * @Date - 12 July 2018
+ * @Time - 11:02 AM
+ */
+
+/*
+	A plain example on simple.io.File move, rename and like operation
+*/
+
+from simple.core.Object
+from simple.io.File
+from simple.util.Console
+
+block main()
+	file = new File("../../../testfiles/test.txt")
+	if !file.exists() {
+		file.create()
+	}
+	stdout.println(file)
+	stdout.println("Rename to triller.txt : " + file.setName("triller.txt")) #change only the name not absolute path
+
+	stdout.println(file)
+	stdout.println("Rename back to test.txt : "+file.renameTo("../../../testfiles/teste.txt", true)) #change it along with absolute path
+
+	#stdout.println("we are deleting "+file.delete())

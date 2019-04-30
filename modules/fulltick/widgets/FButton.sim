@@ -2,12 +2,12 @@
 /*
 
 */
-call simple.core.Object
-call simple.system.Color
-call fulltick.base.FWidget
-call fulltick.painting.FColor
-call fulltick.drawing.FAlignment
-call fulltick.drawing.FBoxType
+from simple.core.Object
+from simple.system.Color
+from fulltick.base.FWidget
+from fulltick.painting.FColor
+from fulltick.drawing.FAlignment
+from fulltick.drawing.FBoxType
 
 /*
 
@@ -152,7 +152,7 @@ class FButton : FWidget
     /*
 
     */
-    block FButton(params...)
+    block init(params...)
         paramsLen = lengthOf(params)
         if paramsLen == 1 {
             Label = params[0]

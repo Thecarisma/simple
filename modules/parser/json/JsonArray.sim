@@ -6,8 +6,8 @@
 /*
 
 */
-call simple.core.Object
-call parser.json.JsonMember
+from simple.core.Object
+from parser.json.JsonMember
 
 /*
 
@@ -32,7 +32,7 @@ class JsonArray : Object
 	/*
 	
 	*/
-	block JsonArray(boolean params...)
+	block init(boolean params...)
 		paramsLen = lengthOf(params)
 		if paramsLen == 0 {
 		elif paramsLen == 1
@@ -215,8 +215,6 @@ class JsonArray : Object
 		switch op {
 			case "lengthOf"
 				return lengthOf(elements)
-			case "iterator"
-				return lengthOf(elements) - 1
 			case "=="
 				return equals(value)
 			case "!="

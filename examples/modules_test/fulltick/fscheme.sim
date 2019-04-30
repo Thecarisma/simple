@@ -1,0 +1,24 @@
+
+from simple.core.Object
+from simple.system.Color
+from simple.util.Console
+from fulltick.drawing.FBoxType
+from fulltick.drawing.FAlignment
+from fulltick.drawing.FFont
+from fulltick.drawing.FLabelType
+from fulltick.objects.FBorder
+from fulltick.objects.FCursor
+from fulltick.painting.FColor
+from fulltick.FScheme
+
+scheme = new FScheme()
+scheme.SchemeName = "Customia"
+scheme.set("FWindow.Background",new FColor(242,242,242))
+scheme.set("FWindow.Foreground",new FColor(242,242,242))
+scheme.set("FWindow.Width",800)
+scheme.set("FWindow.Height",700)
+stdout.println(scheme)
+stdout.println(scheme.getScheme()) 
+stdout.println("SchemeName : " + scheme.SchemeName)
+stdout.println(scheme.getShemeValue("FWindow.Background"))
+stdout.println(scheme.getShemeValue("FWindow.Height"))

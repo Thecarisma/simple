@@ -1,0 +1,16 @@
+/* 
+	Copyright (c) 2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple 
+
+*/
+
+from simple.util.Console
+from archive.zip.Zip
+import simple.core
+
+block main()
+	new Zip("../../../testfiles/test_zip.zip", "w") {
+		add("../../../testfiles/4.json", "json/4.json")
+		add("../../../testfiles/test.txt", "test.txt")
+		extract("../../../testfiles/test_zip/")
+	}

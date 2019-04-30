@@ -10,9 +10,9 @@
  * #date - 5 Febuary 2017
  */
 
-call simple.core.Object
-call simple.io.Path
-call simple.io.File
+from simple.core.Object
+from simple.io.Path
+from simple.io.File
  
 module simple.io
 
@@ -41,7 +41,7 @@ class Directory : Path
 	/*
 	
 	*/
-	block Directory(string path)
+	block init(string path)
 		AbsolutePath = path
 		updateAttributes()
 	
@@ -146,18 +146,24 @@ class Directory : Path
 			should be use in creating directory as it is a safe implementation and it also uses this 
 			block to verify the parent Directory existence
 		*/
-		#TODO : Check the archive.zip.ZipEntry for a beter folder creation block
+		#HINT : Check the archive.zip.ZipEntry for a better folder creation block
 		block createParent() 
 			tempDir = AbsolutePath
+			slashLen = lengthOf(SystemSlash)
 			ChildrenToCreate = []
 			if strEndsWith(AbsolutePath,SystemSlash) { 
 				len = lengthOf(AbsolutePath) - 1
-				tempDir = __left(AbsolutePath, len - lengthOf(SystemSlash))
+				tempDir = __left(AbsolutePath, len - slashLen)
 			}
-			tempDir = removeStr(tempDir,lastStrAfterChar(tempDir, SystemSlash) + SystemSlash)
+			__add_to_list(ChildrenToCreate, tempDir)
+			len = lengthOf(tempDir)
+			loc = lengthOf(lastStrAfterChar(tempDir, SystemSlash))
+			tempDir = __left(tempDir, len - loc - slashLen - 1)
 			while __dir_exists(tempDir) != 1 {
 				__add_to_list(ChildrenToCreate, tempDir)
-				tempDir = removeStr(tempDir, SystemSlash + lastStrAfterChar(tempDir, SystemSlash))
+				len = lengthOf(tempDir)
+				loc = lengthOf(lastStrAfterChar(tempDir, SystemSlash))
+				tempDir = __left(tempDir, len - loc - slashLen - 1)
 			}
 			CTCLen = lengthOf(ChildrenToCreate) - 1
 			for a = CTCLen to 0 step -1 {

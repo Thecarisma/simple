@@ -15,8 +15,8 @@
 /*
 
 */
-call simple.core.Object
-call simple.io.loadfilesavantlib
+from simple.core.Object
+from simple.io.loadfilesavantlib
  
 /*
 
@@ -36,7 +36,7 @@ class PrintWriter : Object
 	/*
 	
 	*/
-	block PrintWriter(FileWriter fileWriter, boolean autoFlush)
+	block init(FileWriter fileWriter, boolean autoFlush)
 		if isNull(fileWriter) {
 			throw(self, "The parameter cannot be null ")
 			return null
@@ -63,19 +63,19 @@ class PrintWriter : Object
 	/*
 	
 	*/
-	block print(data)
-		write(strValueOf(data))
+	block print(var data)
+		write(unEscapeString(strValueOf(data)))
 		
 	/*
 	
 	*/
-	block println(data...)
+	block println(var data...)
 		dataLen = lengthOf(data)
 		if dataLen == 0 {	
 			printNewLine()
 			
 		elif dataLen == 1
-			write(strValueOf(data[0]))
+			write(unEscapeString(strValueOf(data[0])))
 			printNewLine()
 		else
 			throw(self,"Calling block with extra parameters !")
@@ -133,6 +133,18 @@ class PrintWriter : Object
 		}
 		value = strFormatIndex(params)
 		__printwfb(fileWriter.FilePointer, ForegroundColor, color, value)
+		fileWriter.flush()
+
+	/*
+		print with back ground color if supported
+	*/
+	block printbfc(number bgcolor, number fgcolor, params...)
+		if !IsOpen {
+			throw(self, "The file has been closed ")
+			return false
+		}
+		value = strFormatIndex(params)
+		__printwfb(fileWriter.FilePointer, fgcolor, bgcolor, value)
 		fileWriter.flush()
 	
 	/*
@@ -220,5 +232,5 @@ class PrintWriter : Object
 		
 		
 		
-		
+#stop flushing every print, flush on printNewLine
 		

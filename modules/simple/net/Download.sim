@@ -14,9 +14,9 @@
 /*
  
 */
-call simple.core.Object
-call simple.io.File
-call simple.net.loadnetdymodule
+from simple.core.Object
+from simple.io.File
+from simple.net.loadnetdymodule
 
 /*
 
@@ -47,7 +47,7 @@ class Download : File
 	/*
 	
 	*/
-	block Download(string url, string filePath)
+	block init(string url, string filePath)
 		checkNullity(self,url)
 		checkNullity(self,filePath)
 		Url = url

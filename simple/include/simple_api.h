@@ -64,8 +64,6 @@ SIMPLE_API void list_add_cpointer_gc ( void *pState,List *list,void *pGeneral,co
 
 void simple_vmlib_len ( void *pointer ) ;
 
-void block_len_minus_one ( void *pointer ) ;
-
 void simple_vmlib_add ( void *pointer ) ;
 
 void simple_vmlib_version ( void *pointer ) ;
@@ -172,7 +170,7 @@ void read_string ( void *pointer ) ;
 #define SIMPLE_API_MISS9PARA "Bad parameters count, the block expect nine parameters"
 #define SIMPLE_API_MISS10PARA "Bad parameters count, the block expect ten parameters"
 #define SIMPLE_API_BADPARATYPE "Bad parameter type!"
-#define SIMPLE_API_BADPARACOUNT "Bad parameters count!"
+#define SIMPLE_API_BADPARACOUNT "Invalid length of parameters!"
 #define SIMPLE_API_BADPARARANGE "Bad parameters value, error in range!"
 #define SIMPLE_API_NOTPOINTER "Error in parameter, not pointer!"
 #define SIMPLE_API_NULLPOINTER "Error in parameter, NULL pointer!"

@@ -12,7 +12,7 @@
 	#License - MIT License
  */
 
-call simple.core.Object
+from simple.core.Object
 
 module simple.core
 
@@ -26,7 +26,7 @@ module simple.core
 	### Usage
 	The module is called to get access to the blocks both functional and object based.
 	```simple
-	call "simple/core/List.sim"
+	from "simple/core/List.sim"
 	```
 */
 
@@ -116,7 +116,7 @@ class List : Object
 		    Any other type of parameter is an Error
 */
 
-    block List(list) 
+    block init(list) 
 		if instanceOf(list,"List") {
 			ListObject = list.ListObject
 		elif isList(list) or isString(list) 

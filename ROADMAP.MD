@@ -32,7 +32,7 @@ build, installation, features e.t.c
 	- [x] create built-in block in core_dynamic_module to add path to the modules path 
 - [x] write build script for building simple-lang core, environment and modules for windows os
 - [x] write build script for building simple-lang core, environment and modules for linux os
-- [ ] write build script for building simple-lang core, environment and modules for mac os
+- [x] write build script for building simple-lang core, environment and modules for mac os
 - [ ] write build script for building simple-lang core, environment and modules for haiku os
 - [x] make linux build script generate .deb and .zip package
 - [ ] presence of simple-lang codes and snippets on rosetta codes [working issue](https://github.com/simple-lang/simple/issues/20)
@@ -42,7 +42,7 @@ build, installation, features e.t.c
 - [ ] write a comprehensive book on developing with simple-lang
 - [ ] re write the simple-lang interpreter with lot of optimization and split into in dependable parts
 - [x] load shared library in linux [working issue](https://github.com/simple-lang/simple/issues/8)
-- [ ] load shared library on MAC
+- [x] load shared library on MAC
 - [x] load shared library on windows
 - [ ] load shared library on haiku os
 - [x] writing a vscode extension [working issue](https://github.com/simple-lang/simple/issues/13)
@@ -51,8 +51,8 @@ build, installation, features e.t.c
 - [ ] a suitable, befitting and upto date README on github repository
 - [x] build script should build .lib for windows os
 - [x] build script should create a .a archive for statically linking simple-lang runtime on windows os
-- [ ] build script should create a .a archive for statically linking simple-lang runtime on linux os
-- [ ] build script should create a .a archive for statically linking simple-lang runtime on mac os
+- [x] build script should create a .a archive for statically linking simple-lang runtime on linux os
+- [x] build script should create a .a archive for statically linking simple-lang runtime on mac os
 - [ ] build script should create a .a archive for statically linking simple-lang runtime on haiku os
 - [x] add a new flexible keyword **final** to lock a variable to a particular to prevent re initializing [PR](https://github.com/simple-lang/simple/pull/38)
 - [ ] allow strong and weak typing to prevent inconsistent and conflicting initialization
@@ -94,32 +94,59 @@ build, installation, features e.t.c
 - [x] add `import` keyword to import module in a source file, with comma seperated for importing multiple modules
 - [ ] if supporting strong typing, probably allow a variable with more than one datatype e.g string|number val = 0 and val can also be val = "zero" only 
 - [ ] enable the camparison between any data type and **null**
-- [ ] allow iterating over an object using **lengthOf** operator in place of **iterator** operator
-- [ ] enable executing the **simple.sim** script in module folder if the **-m** flag is specified e.g `simple -m archive.zip -l [zipfile], python style
+- [x] allow iterating over an object using **lengthOf** operator in place of **iterator** operator
 - [ ] both false/0 and null variable should be false in a conditional statement e.g `v = null if v display "never it false it null" end`
 - [ ] revisit the data types operator rules e.g list + object = list[object] should be list += object = list[object]
 - [ ] completely remove the '@' operator to print expression and replace with display + newLine
 - [ ] get ride of the global variable `cmdparams` which hold the command line parameters for optional arguments in `main()` block
+- [ ] add option for configure to install an old version of gcc for building compatible binaries in *nux-Build scripts. **preferable gcc-6 g++-6**
+- [ ] add option to use a version of gcc/g++ compiler for build, *nix.
+- [ ] replace the Makefiles in dynamic modules to use a simple conf file
+- [ ] enforce variables to be created using keyword or the Type **?**
+- [ ] natively attend to escape characters
+- [ ] use the operator method for assignment also, putting the shallow or deep copy option in developer control
+- [ ] change 'call' keyword to 'from' for loading module
+- [ ] change 'invoke' keyword to 'call' for calling lambda block
+- [ ] change the method **execCode** to **eval**
+- [x] use the Error method in classes to attend to error that occur when class access is in braces
 
 ### simplify
+- [ ] create and optimize simple source before compiling into bytecode (.complex)
+- [ ] does not compile the following, removing in the order below
+	- [ ] variable
+	- [ ] block and method
+	- [ ] class 
+	- [ ] module
 - [ ] hint user as a type of level error when a similar variable that has not been declared is used 
-- [ ] add support for directive '##' for compile time cutomization
+- [ ] ~add support for directive '##' for compile time cutomization~
 - [ ] display verbose warning and errors when using the compiler 
 - [ ] add and use the keyword `var` to allow variable declaration
 - [ ] directive : allow the use of strict declaration to render undefine variable error `see perl 'use strict;'`
-- [ ] allow the `&` operator to pass a parameter by reference
+- [-] ~allow the `&` operator to pass a parameter by reference~
+- [ ] compiles to .complex file
+- [ ] compiles simple bytecodes into Web Assembly Text File (WAT) 
+- [ ] option to encrypt string in bytecode, if available the VM take option to determine if string is encrypted
+- [ ] inline variables and function calls e.g final CONST = __CONST() becomes __CONST() in the bytecode
 
 ### Modules
 
 To dos and features relative to the simple-lang standard modules which includes new modules addition, module modification or any other
 issue related to the module
 
+- [ ] change all existing module methods and function identifier to starts with Capital letter instead of small letter
+- [ ] make the conf.sim file in dynamic module folder for compiling dynamic module instead of makefiles 
+- [ ] Makefiles for various platform can be generated from the options in dynamic module conf.sim
 - [ ] generate static dynamic modules for static building for bake, making DynamicLoader.sim aware of statically link dynamic module
 - [ ] add makefile for building fulltick on windows
-- [ ] create the input output (io) module which include File, Path, Directory, PathAttribute, PathType, FileStream
+- [x] create the input output (io) module which include
+	- [x] File
+	- [x] Path
+	- [x] Directory
+	- [ ] FileReader
+	- [x] FileWriter
 - [ ] create all high level data types [working issue](https://github.com/simple-lang/simple/issues/15)
 - [x] init functional console module to simplify working with command line and terminal 
-- [ ] resolve the string lib to accurately unescape characters
+- [x] resolve the string lib to accurately unescape characters
 - [x] building a better debugging module [working issue](https://github.com/simple-lang/simple/issues/17)
 - [ ] develop the complete functional GUI module (fulltick) using the fltk c++ library
 	- [ ] call and execute events natively
@@ -127,6 +154,7 @@ issue related to the module
 	- [ ] remove validatePointer() block after contructor has been enforced in VM
 	- [ ] add custom event listener to FMenuItem such as Inactive, Removal, Add e.t.c 
 	- [ ] export Fl_Menu_Item.H struct 
+	- [ ] css to set the style
 - [ ] port qt library to simple-lang for a higher GUI module 
 - [ ] create database module for simple-lang which includes mysql, sqlite, odbc and access
 	- [ ] build the mysql database module
@@ -151,11 +179,20 @@ issue related to the module
 - [ ] parser.json module to parse and create json string
 	- [x] load json from string and create json from class, list and manually
 	- [ ] a json module that load the json file and store as class attributes and fields and allow writing back to file
+	- [ ] use reflection to serialize and deserialize object into json
+- [x] reStructuredText parser module to read rst file into usable tokens
 - [x] create a built in block to get hex as number using `H("0x00")
 - [ ] build a comprehensive color module in simple.system
 - [ ] create a look ahead class for pure string and file stream for parser implementation
 	- [x] LookAhead class for pure string. `simple.utilities.LookAhead`
 	- [ ] for file stream or file reader. `simple.io.LookAheadReader`
+- [ ] create block to locate resources in possible locations with file name and program name e.g `locateResource(string programName, string name)`
+- [ ] create proper encodings module
+- [ ] implement a matrix module with base type of list in simple.core
+- [ ] stop moving libsimple_fulltick dynamic module after SIDE has been created
+- [ ] write better and more robust strSplit function
+- [ ] re implement the String class completely in simple-lang without depending on libstring_savant
+- [ ] implement foreach method in any class that operate on array, accepting anonymous block as parameter with the anonymous block parameter corresponding to the element structure
 
 ### Extended Modules
 
@@ -164,34 +201,68 @@ Modules which are not part of the standard module that comes distributed with si
 - [ ] create material and native os extended module for fulltick GUI module
 - [ ] a module that convert fultick Widget to HTML element
 - [ ] write a C/C++ parser module to scan C/C++ sources into resuable token groups 
+- [ ] move the libstring_savant dynamic module to extended modules
 
 ### Environments
 
-- [ ] build a semi-intelligent small simple-lang editor - simplepad [working issue](https://github.com/simple-lang/simple/issues/18)
-- [ ] build package installer - modular [working issue](https://github.com/simple-lang/simple/issues/18)
-	- [x] modular install and upgrade new module, doc and dynamic module added to the package index
+- [ ] modular
+	- [ ] build package installer - modular [working issue](https://github.com/simple-lang/simple/issues/18)
+	- [ ] modular install and upgrade new module, doc and dynamic module added to the package index
 	- [ ] modular clone and install module from github repository
-	- [x] upgrade simple-lang distro on the system from either dev or stable version
+	- [ ] upgrade simple-lang distro on the system from either dev or stable version
 	- [ ] test full operation on windows os
 	- [ ] test full operation on linux os
 	- [ ] test full operation on mac os
 	- [ ] test full operation on haiku os
-- [x] create the language repl - simplerepl 
-- [ ] extend simple-repl functionalities (Case Study : elixr iex)
-- [x] Build the minifier environment that reduces module size by compressing code upon installation.
-- [ ] create the distribution program - bake
+	
+- [x] simplerepl 
+	- [x] execute multi-line code
+	- [x] read input from terminal
+	- [ ] extend simple-repl functionalities (Case Study : elixr iex)
+	
+- [x] ~minifier~
+	- [x] ~reduces module size by compressing code upon installation. (if skip compilation)~
+
+- [ ] bake
+	- [ ] read simple bytecodes (.complex) and write to C/C++ for speed and more C optimization
 	- [ ] use a small compiler to generate executable
-	- [ ] package simple compiled file (.complex) to system executable
-	- [ ] package simple compiled file (.complex) to system library or simple-lang specific library
-	- [ ] create directory for generated output
+	- [x] package simple compiled file (.complex) to system executable
+	- [x] package simple compiled file (.complex) to system library or simple-lang specific library
+	- [x] create directory for generated output
 	- [ ] allow static linking of simple-lang runtime
-	- [ ] allow dynamic linking of simple-lang runtime
+	- [x] allow dynamic linking of simple-lang runtime
 	- [ ] minify and build a distributable modules and dynamic modules for distribution
 	- [ ] test full operation on windows os
 	- [ ] test full operation on linux os
 	- [ ] test full operation on mac os
 	- [ ] test full operation on haiku os
+	
+- [ ] build the documentation environment to read comment from source into reStructuredText
+	- [ ] generate conf.py for sphinx
+	- [ ] generatemake.bat and Makefile for sphinx build
+	- [ ] auto create index pages for each folder
+	- [ ] allow linking to raw source code
+	
+- [ ] simplem 
+	- [ ] enable executing the **simple.sim** script in module folder i`simplem archive.zip -l [zipfile]`
+	- [ ] check for the module first in relative to the current directory
+	- [ ] check for the module in the standard modules location
 
+- [ ] smoothc
+	- [ ] auto create simple dynamic module from a C/C++ Header file
+	- [ ] dispose unassigned pointer in function
+	- [ ] struct is a small class with all the variables working
+	- [ ] callback functions in C/C++ can be replaced by native simple function
+	- [ ] option to change exported struct to conform with Naming Style in simple
+	- [ ] export struct pointer with create and destroy function
+	- [ ] enable overloaded function export from C/C++
+	- [ ] resolve addressOf and & operator while creating funtions
+	
+- [ ] side
+	- [working issue](https://github.com/simple-lang/simple/issues/18)
+	- [ ] able to debug and manipulate complex files
+	- [ ] break point enable in the program but hidden in editor and build
+	- [ ] can preview and parse Mark Down
 
 
 

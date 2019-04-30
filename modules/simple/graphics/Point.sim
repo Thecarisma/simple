@@ -2,8 +2,8 @@
 /*
 
 */
-call simple.core.Object
-call simple.graphics.Rectangle
+from simple.core.Object
+from simple.graphics.Rectangle
 
 /*
 
@@ -29,7 +29,7 @@ class Point : Object
     /*
 
     */
-    block Point(params...)
+    block init(params...)
         paramsLen = lengthOf(params)
 
         if paramsLen == 1 {

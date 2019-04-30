@@ -13,7 +13,7 @@
 /*
 
 */
-call archive.loadarchiver
+from archive.loadarchiver
 import simple.core
  
 /*
@@ -79,7 +79,7 @@ class Zip : Object
 	/*
 
 	*/
-	block Zip(object params...)
+	block init(object params...)
 		paramsLen = lengthOf(params)
 		
 		/*if paramsLen == 1 {
@@ -184,8 +184,6 @@ class Zip : Object
 				return !equals(value)
 			case "lengthOf"
 				return getCount()
-			case "iterator"
-				return getCount() - 1
 			case "[]"
 				return open(value)
 		}

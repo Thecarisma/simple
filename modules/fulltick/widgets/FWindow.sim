@@ -2,17 +2,17 @@
 /*
 
 */
-call simple.core.Object
-call simple.graphics.Dimension
-call simple.graphics.Rectangle
-call simple.graphics.Point
-call simple.system.ScreenDimension
-call fulltick.FApp
-call fulltick.FScheme
-call fulltick.base.FWidget
-call fulltick.widgets.FGroup
-call fulltick.widgets.FLabel
-call fulltick.objects.FCursor
+from simple.core.Object
+from simple.graphics.Dimension
+from simple.graphics.Rectangle
+from simple.graphics.Point
+from simple.system.ScreenDimension
+from fulltick.FApp
+from fulltick.FScheme
+from fulltick.base.FWidget
+from fulltick.widgets.FGroup
+from fulltick.widgets.FLabel
+from fulltick.objects.FCursor
 import fulltick.base
 
 /*
@@ -220,7 +220,7 @@ class FWindow : FGroup
     /*
 
     */
-    block FWindow(params...) 
+    block init(params...) 
         paramsLen = lengthOf(params)
         if paramsLen == 1 {
             Title = params[0]
@@ -282,7 +282,7 @@ class FWindow : FGroup
         RootBox.hide()
         RootBox.__Name = "RootBox" 
         super.setResizable(RootBox)  
-        makeCurrent()
+        #makeCurrent() since we are calling endBegin
         endBegin()
         setHasWindowBorder(HasWindowBorder)
         if isAndroid() and FScheme.UsePlatformUI { 

@@ -1,0 +1,42 @@
+ 
+from simple.util.ConsoleColor
+from simple.util.Console 
+ 
+#functional
+stdout.printfc(ConsoleColorNone,"ConsoleColorNone \n")
+stdout.printfc(ConsoleColorBlack,"ConsoleColorBlack \n")
+stdout.printfc(ConsoleColorDarkRed,"ConsoleColorDarkRed \n")
+stdout.printfc(ConsoleColorDarkGreen,"ConsoleColorDarkGreen \n")
+stdout.printfc(ConsoleColorDarkYellow,"ConsoleColorDarkYellow \n")
+stdout.printfc(ConsoleColorDarkBlue,"ConsoleColorDarkBlue \n")
+stdout.printfc(ConsoleColorDarkMagenta,"ConsoleColorDarkMagenta \n")
+stdout.printfc(ConsoleColorDarkCyan,"ConsoleColorDarkCyan \n")
+stdout.printfc(ConsoleColorGray,"ConsoleColorGray \n")
+stdout.printfc(ConsoleColorDarkGray,"ConsoleColorDarkGray \n")
+stdout.printfc(ConsoleColorRed,"ConsoleColorRed \n")
+stdout.printfc(ConsoleColorGreen,"ConsoleColorGreen \n")
+stdout.printfc(ConsoleColorYellow,"ConsoleColorYellow \n")
+stdout.printfc(ConsoleColorBlue,"ConsoleColorBlue \n")
+stdout.printfc(ConsoleColorMagenta,"ConsoleColorMagenta \n")
+stdout.printfc(ConsoleColorWhite,"ConsoleColorWhite \n")
+
+#OOP
+#UpperCase 													#lowercase
+
+stdout.printfc(ConsoleColor.None,"None ")					stdout.printfc(ConsoleColor.none,"none \n")
+stdout.printfc(ConsoleColor.Black,"Back ")					stdout.printfc(ConsoleColor.black,"black \n")
+stdout.printfc(ConsoleColor.DarkRed,"DarkRed ")				stdout.printfc(ConsoleColor.darkred,"darkred \n")
+stdout.printfc(ConsoleColor.DarkGreen,"DarkGreen ")			stdout.printfc(ConsoleColor.darkgreen,"darkgreen \n")
+stdout.printfc(ConsoleColor.DarkYellow,"DarkYellow ")		stdout.printfc(ConsoleColor.darkyellow,"darkyellow \n")
+stdout.printfc(ConsoleColor.DarkBlue,"DarkBlue ")			stdout.printfc(ConsoleColor.darkblue,"darkblue \n")
+stdout.printfc(ConsoleColor.DarkMagenta,"DarkMagenta ")		stdout.printfc(ConsoleColor.darkmagenta,"DarkMagenta \n")
+stdout.printfc(ConsoleColor.DarkCyan,"DarkCyan ")			stdout.printfc(ConsoleColor.darkcyan,"darkcyan \n")
+stdout.printfc(ConsoleColor.Gray,"Gray ")					stdout.printfc(ConsoleColor.gray,"gray \n")
+stdout.printfc(ConsoleColor.DarkGray,"DarkGray ")			stdout.printfc(ConsoleColor.darkgray,"darkgray \n")
+stdout.printfc(ConsoleColor.Red,"Red ")						stdout.printfc(ConsoleColor.red,"red \n")
+stdout.printfc(ConsoleColor.Green,"Green ")					stdout.printfc(ConsoleColor.green,"green \n")
+stdout.printfc(ConsoleColor.Yellow,"Yellow ")				stdout.printfc(ConsoleColor.yellow,"yellow \n")
+stdout.printfc(ConsoleColor.Blue,"Blue ")					stdout.printfc(ConsoleColor.blue,"blue \n")
+stdout.printfc(ConsoleColor.Magenta,"Magenta ")				stdout.printfc(ConsoleColor.magenta,"magenta \n")
+stdout.printfc(ConsoleColor.White,"White ")					stdout.printfc(ConsoleColor.white,"white \n")
+

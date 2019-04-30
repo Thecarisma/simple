@@ -14,7 +14,9 @@
 #include "../include/simple.h"
 /* Support for C Blocks */
 
-SIMPLE_API void simple_vmlib_isblock ( void *pointer );
+//TODO : move to headers
+SIMPLE_API void simple_vmlib_isblock( void *pointer );
+SIMPLE_API void simple_vmlib_throw( void *pointer );
 
 SIMPLE_API void register_block_t ( SimpleState *sState,const char *cStr, void (*pBlock)(void *) )
 {
@@ -31,7 +33,6 @@ SIMPLE_API void loadcblocks ( SimpleState *sState )
 {
 	/** General **/
 	register_block("lengthOf",simple_vmlib_len);
-	register_block("iterator",block_len_minus_one);
 	register_block("__add_to_list",simple_vmlib_add);
 	register_block("ascii",simple_vmlib_char);
 	register_block("simpleVersion",simple_vmlib_version);
@@ -47,6 +48,7 @@ SIMPLE_API void loadcblocks ( SimpleState *sState )
 	register_block("executeCode",simple_vmlib_exec);
         /* Meta */
 	register_block("hasBlock",simple_vmlib_isblock);
+    register_block("__throw",simple_vmlib_throw);
 	#ifdef __ANDROID__
     __init_full_tick(sState);
 	#endif
@@ -440,32 +442,6 @@ void simple_vmlib_len ( void *pointer )
 	}
 }
 
-void block_len_minus_one ( void *pointer )
-{
-	VM *vm  ;
-	vm = (VM *) pointer ;
-	if ( SIMPLE_API_PARACOUNT != 1 ) {
-		SIMPLE_API_ERROR(SIMPLE_API_MISS1PARA);
-		return ;
-	}
-	if ( SIMPLE_API_ISSTRING(1) ) {
-		SIMPLE_API_RETNUMBER(SIMPLE_API_GETSTRINGSIZE(1) - 1);
-	}
-	else if ( SIMPLE_API_ISLIST(1) ) {
-		if ( simple_vm_oop_isobject(SIMPLE_API_GETLIST(1)) == 0 ) {
-			SIMPLE_API_RETNUMBER(simple_list_getsize(SIMPLE_API_GETLIST(1)) - 1);
-		}
-		else {
-			SIMPLE_VM_STACK_PUSHPVALUE(SIMPLE_API_GETPOINTER(1));
-			SIMPLE_VM_STACK_OBJTYPE = SIMPLE_API_GETPOINTERTYPE(1) ;
-			simple_vm_expr_npoo(vm,"iterator",0);
-			vm->nIgnoreNULL = 1 ;
-		}
-	} else {
-		SIMPLE_API_ERROR(SIMPLE_API_BADPARATYPE);
-	}
-}
-
 void simple_vmlib_add ( void *pointer )
 {
 	List *list,*list2  ;
@@ -681,6 +657,23 @@ SIMPLE_API void simple_vmlib_isblock ( void *pointer )
 	}
 }
 
+SIMPLE_API void simple_vmlib_throw(void *pointer)
+{
+	if ( SIMPLE_API_PARACOUNT != 1 ) {
+		SIMPLE_API_ERROR(SIMPLE_API_MISS1PARA);
+		return ;
+	}
+	if ( SIMPLE_API_ISSTRING(1) ) {
+		if (((VM *) pointer)->sState->skip_error == 0) 
+			((VM *) pointer)->sState->skip_error = 1;
+		SIMPLE_API_ERROR(SIMPLE_API_GETSTRING(1));
+		if (((VM *) pointer)->sState->skip_error == 1) 
+			((VM *) pointer)->sState->skip_error = 0;
+		return;
+	} else {
+		SIMPLE_API_ERROR(SIMPLE_API_BADPARATYPE);
+	}
+}
 
 void simple_vmlib_char ( void *pointer )
 {

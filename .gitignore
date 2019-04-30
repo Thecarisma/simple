@@ -17,9 +17,19 @@
 *.exp
 *.obj
 *.cod
+*.db
 *.vscode
 *@@
 *ilk
+*idb
+*pdb
+*.lastbuildstate
+*.unsuccessfulbuild
+*.tlog
+*.cache
+*.log
+*.obj
+*.ilk
 *.stackdump
 *.orig
 *.complex
@@ -67,6 +77,23 @@ modules/dynamic_modules/fulltick/fulltick.vcxproj
 modules/dynamic_modules/fulltick/fulltick.vcxproj.filters
 modules/dynamic_modules/fulltick/fulltick.vcxproj.user
 modules/dynamic_modules/fulltick/fulltick/
+
+#exclude libuv for now
+modules/dynamic_modules/simple_uv/
+
+#environment app residuals
+environment/bake/bake/
+environment/minifier/minifier/
+environment/modular/modular/
+environment/simplebridge/simplebridge/
+environment/simplepad/simplepad/
+environment/simplerepl/simplerepl/
+environment/supplement/supplement/
+
+#we don't want the bakkery residual in the project
+*_bake*
+*_bake/
+*.bake*
 
 ''$'\001\213\212''@@'
 

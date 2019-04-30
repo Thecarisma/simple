@@ -1,0 +1,31 @@
+/*
+    This samples shows the creation of a multi-level directory which 
+	has the same name for each of the directory level. Before this date 
+	multi-level directory with same name on each level will only create 
+	the first level 
+	
+	Example::
+	
+		dir = new Directory("../testfiles/dir_test/dir_test/dir_test/dir_test/dir_test")
+		dir.create()
+		
+	The above example will only create the directory ``"../testfiles/dir_test/"`` 
+	neglecting all the sub level directory with the same name **dir_test**
+	
+	This issue has been resolve in the following commit 
+	https://github.com/simple-lang/simple/commit/f45af071ee49ef37d80e88b141adae1e82a1cac0
+
+	:copyright: 2018-2019, Azeez Adewale
+	:license: MIT License Copyright (c) 2018 simple
+	:author: Azeez Adewale <azeezadewale98@gmail.com>
+	:date: March 23 2019
+	:filename: create_directory.sim
+*/
+from simple.core.Object
+from simple.util.Console
+from simple.io.Directory
+
+block main()
+	dir = new Directory("../testfiles/dir_test/dir_test/dir_test/dir_test/dir_test")
+	stdout.println(dir)
+	dir.create()

@@ -1,0 +1,15 @@
+/*
+
+*/
+from simple.core.Object
+from simple.util.Console
+from simple.net.curl.Curl
+
+block main()
+	curl = new Curl("https://api.coingate.com/v2/rates")
+	stdout.println(curl)
+	curl.addHeader("Content-type","application/json")
+	curl.addHeader("Accept",":")
+	stdout.println(curl.strPerform())
+	stdout.println(curl)
+	curl.flush()

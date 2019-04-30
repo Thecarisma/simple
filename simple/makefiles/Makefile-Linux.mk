@@ -20,20 +20,20 @@ endif
 # Flags
 CFLAGS= -c -fpic -g
 LFlAGS= -lm -ldl
-LDFLAGS= -L ./ -Wl,-R./ "-Wl,-rpath,./ ../lib/ $(DESTDIR)$(PREFIX)/lib/ ~/lib/" "-Wl,--no-as-needed"
+LDFLAGS= -L ./ "-Wl,-rpath,./" "-Wl,-rpath,../lib/" "-Wl,-rpath,$(DESTDIR)$(PREFIX)/lib/" "-Wl,-rpath,~/lib/" "-Wl,--no-as-needed"
 AR_FLAGS=rcs
 
 # Macros
-VER=0.3.36
+VER=0.4.0
 VERSION=s"$VER"
 CND_PLATFORM=
 CND_DLIB_EXT=so
 CND_BUILDDIR=build
 CND_DISTDIR =../dist
-CLEAN_DEBUGDIR=../../../s0.3.36-debug
+CLEAN_DEBUGDIR=../../../s0.4.0-debug
 BINARYDIR=bin
 SOURCE_DIR=../sources
-INCLUDES_DIR=../includes
+INCLUDES_DIR=../include
 
 # Object Directory
 OBJECTDIR=$(CND_DISTDIR)/$(CND_BUILDDIR)/$(CND_PLATFORM)
@@ -70,10 +70,12 @@ SIMPLE_OBJECTFILES= \
 	${OBJECTDIR}/simple.o
 
 $(CND_DISTDIR)/$(CND_PLATFORM)/simple: $(OBJECTFILES)
-	$(CC) -shared $(ARC_FLAG) -o ./liblibsimple.$(CND_DLIB_EXT) $(OBJECTFILES)
+	$(CC) -shared $(ARC_FLAG) -o ./libsimple.$(CND_DLIB_EXT) $(OBJECTFILES)
 	$(CC) $(LDFLAGS) $(LFlAGS) $(ARC_FLAG) -o $(CND_DISTDIR)/simple ../simple.c libsimple.$(CND_DLIB_EXT)
 	${AR} ${AR_FLAGS} ./libsimple.a ${OBJECTFILES}
 	mv ./libsimple.$(CND_DLIB_EXT) $(CND_DISTDIR)
+	mv ./libsimple.a $(CND_DISTDIR)
+	rm -f ./libsimple.$(CND_DLIB_EXT) ./libsimple.a
 	#rm -R ${OBJECTDIR}
 	
 $(OBJECTDIR)/simple_api.o: $(SOURCE_DIR)/simple_api.c
@@ -192,20 +194,21 @@ install: $(CND_DISTDIR)/simple
 	install $(CND_DISTDIR)/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/
 	install $(CND_DISTDIR)/libsimple.a $(DESTDIR)$(PREFIX)/lib/
 	install $(INCLUDES_DIR)/simple* $(DESTDIR)$(PREFIX)/include/simple/
-	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/liblibsimple.$(CND_DLIB_EXT) 
-	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(CND_DLIB_EXT)
-	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(VER).$(CND_DLIB_EXT)
+	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) 
+	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(CND_DLIB_EXT)
+	link $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(VER).$(CND_DLIB_EXT)
 
 .PHONY: uninstall
 uninstall:
 	rm -rf $(DESTDIR)$(PREFIX)/bin/simple
 	rm -f $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT)
-	rm -f $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(CND_DLIB_EXT)
-	rm -f $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(VER).$(CND_DLIB_EXT)
+	rm -f $(DESTDIR)$(PREFIX)/lib/libsimple.a
+	rm -f $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(CND_DLIB_EXT)
+	rm -f $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(VER).$(CND_DLIB_EXT)
 	rm -R -f $(DESTDIR)$(PREFIX)/include/simple/
-	unlink $(DESTDIR)$(PREFIX)/lib/liblibsimple.$(CND_DLIB_EXT) 
-	unlink $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(CND_DLIB_EXT)
-	unlink $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/liblibsimple.$(VER).$(CND_DLIB_EXT)
+	unlink $(DESTDIR)$(PREFIX)/lib/libsimple.$(CND_DLIB_EXT) 
+	unlink $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(CND_DLIB_EXT)
+	unlink $(DESTDIR)$(PREFIX)/lib/x86_64-linux-gnu/libsimple.$(VER).$(CND_DLIB_EXT)
 
 #This Makefile-Windows.mk was written in adaptation to the standard
 #method of writing makefiles

@@ -2,8 +2,8 @@
 /*
 
 */
-call fulltick.base.FWidget
-import simple.core, simple.system, simple.utilities
+from fulltick.base.FWidget
+import simple.core, simple.system, simple.util
 
 /*
 
@@ -148,7 +148,7 @@ class FAlignment : Object
     /*
 
     */
-    block FAlignment(align)
+    block init(align)
         if isNumber(align) {
             Alignment = align
         else

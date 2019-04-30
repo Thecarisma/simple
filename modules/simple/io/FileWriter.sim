@@ -15,10 +15,10 @@
 /*
 
 */
-call simple.core.Object
-call simple.reflection.Class
-call simple.io.loadfilesavantlib
-call simple.io.File
+from simple.core.Object
+from simple.reflection.Class
+from simple.io.loadfilesavantlib
+from simple.io.File
  
 /*
 
@@ -48,7 +48,7 @@ class FileWriter : Object
 	/*
 	
 	*/
-	block FileWriter(object params...)
+	block init(object params...)
 		paramsLen = lengthOf(params)
 		object file = null
 		boolean CreateIfNotFound = false
@@ -119,7 +119,7 @@ class FileWriter : Object
 	
 	/*
 	
-	*/#use byte in future
+	*/
 	block write(string data)
 		if !IsOpen {
 			throw(self, "The file has been closed ")

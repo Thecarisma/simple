@@ -1,0 +1,14 @@
+/*
+
+*/
+
+from simple.core.Object
+from simple.util.Console
+from simple.debugging.Debug
+
+object1 = new Object
+object2 = new Object 
+object3 = object1.clone() 
+stdout.println(object1.uniquecode())  
+stdout.println(object2.uniquecode()) 
+stdout.println(object3.uniquecode()) 

@@ -1,0 +1,119 @@
+/*P
+	Convert between possible different types
+
+	:copyright: 2018-2019, Azeez Adewale
+	:license: MIT License Copyright (c) 2018 simple
+	:author:  Azeez Adewale
+	:date: 5 Febuary 2017
+	:time: 
+	:filename: Conversion.sim
+*/
+
+from simple.core.loadcoredymodule
+ 
+module simple.util
+
+/*
+	Convert a string to it equivalent C Hexadecimal values
+	
+	::
+		
+		cHex = strToCHex("Hello World")
+		stdout.println(cHex)
+		
+	The above snippet should create the below C hex
+		
+	:: 
+	
+		0x48,0x65,0x6c,0x6c,0x6f,0x20,0x57,0x6f,0x72,0x6c,0x64
+		
+	**Parameters**:	
+		value : String
+			the string value to convert to C Hex
+	
+	**Return**:
+		the C Hexadecimal values for the string
+*/
+block strToCHex(string value) 
+	return __string_to_chex(value)
+
+/*
+	Convert a string to it equivalent Hexadecimal values
+	
+	::
+	
+		hex = strToHex("Hello World")
+		stdout.println(hex)
+		
+	The above snippet should create the below hex
+		
+	:: 
+	
+		48656c6c6f20576f726c64
+		
+	**Parameters**:	
+		value : String
+			the string value to convert to Hexadecimal value
+	
+	**Return**:
+		the Hexadecimal values for the string
+*/
+block strToHex(string value)
+	return __string_to_hex(value)
+	
+/*
+	Revert the result of the strToHex(string value) function from by
+	convert Hexadecimal values to string
+	
+	::
+	
+		hex = hexToString("48656c6c6f20576f726c64")
+		stdout.println(hex)
+		
+	The above snippet should create the below hex
+		
+	:: 
+	
+		"Hello World"
+		
+	**Parameters**:	
+		value : String
+			the hexadecimal value to convert to string
+	
+	**Return**:
+		the string for the hexadecimal value
+*/
+block hexToString(string value)
+	return __hex_to_string(value)
+	
+/*
+	Convert a string to list
+	
+	.. note::
+		This does not split the string by any character all string is converted 
+		to a list with length of 1 
+		
+	**Parameters**:	
+		value : String
+			the hexadecimal value to convert to list
+	
+	**Return**:
+		the list containing the string at index 0
+*/	
+block strToList(string value)
+	return __string_to_list(value)
+	
+/*S
+	
+	.. code-block:: simple
+	
+		from simple.util.Console
+		from simple.util.Conversion
+		import simple.core
+		
+		stdout.println(strToCHex("Hello World"))
+		stdout.println(strToHex("Hello World"))
+		stdout.println(hexToString("48656c6c6f20576f726c64"))
+		stdout.println(strToList("Hello World"))
+
+*/

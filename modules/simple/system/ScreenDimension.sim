@@ -2,9 +2,9 @@
 /*
 
 */
-call simple.core.Object
-call simple.graphics.Dimension
-call simple.system.System
+from simple.core.Object
+from simple.graphics.Dimension
+from simple.system.System
 
 /*
 
@@ -44,7 +44,7 @@ class ScreenDimension : Dimension
     /*
 
     */
-    block ScreenDimension()
+    block init()
         return self
 
     /*

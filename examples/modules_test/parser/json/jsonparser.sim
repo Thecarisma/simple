@@ -1,0 +1,15 @@
+/*
+
+*/
+from simple.core.Object
+from simple.util.Console
+from parser.json.JsonParser
+
+block main()
+	jsonParser = new JsonParser('[ { "name": "Alice", "age": -10 }, { "name": "Bob", "age": -31 } ]')
+	json = jsonParser.parse()
+	for person in json {
+		name = person.get("name").Value
+		age = -person.get("age").Value
+		stdout.printf("%s is %n years old \n", name, age)
+	}

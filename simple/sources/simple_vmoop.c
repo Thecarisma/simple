@@ -1147,7 +1147,7 @@ SIMPLE_API void simple_vm_oop_operatoroverloading ( VM *vm,List *pObj,const char
 		/* Create String */
 		string = simple_string_new_gc(vm->sState,"if hasBlock(simple_gettemp_var,'operator')\nreturn simple_gettemp_var.operator('");
 		simple_string_add_gc(vm->sState,string,string_one);
-		simple_string_add_gc(vm->sState,string,"',simple_settemp_var)\nelse\nthrow('Object does not support operator overloading')\nend\n");
+		simple_string_add_gc(vm->sState,string,"',simple_settemp_var)\nelse\n__throw('Object does not support operator overloading')\nend\n");
 		/* Eval the string */
 		pItem = SIMPLE_VM_IR_ITEM(1) ;
 		vm->nEvalCalledFromSimpleCode = 0 ;
@@ -1182,7 +1182,7 @@ SIMPLE_API void simple_vm_oop_callmethodfrombrace ( VM *vm )
 			if ( simple_list_getsize(vm->pBlockCallList) > 0 ) {
 				list2 = simple_list_getlist(vm->pBlockCallList,simple_list_getsize(vm->pBlockCallList));
 				cStr = simple_list_getstring(list2,SIMPLE_BLOCKCL_NAME);
-				if ( strcmp(cStr,cStr) != 0 ) {
+				if ( strcmp(cStr,"init") != 0 ) {
 					list = simple_list_getlist(vm->pObjState,simple_list_getsize(vm->pObjState)-1) ;
 				}
 			}

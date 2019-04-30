@@ -2,9 +2,9 @@
 /*
 
 */
-call simple.core.Object
-call simple.graphics.Point
-call simple.graphics.Dimension
+from simple.core.Object
+from simple.graphics.Point
+from simple.graphics.Dimension
 
 /*
 
@@ -41,7 +41,7 @@ class Rectangle : Object
     /*
 
     */
-    block Rectangle(params...)
+    block init(params...)
         paramsLen = lengthOf(params)
         if paramsLen == 1 {
             if !isNull(params[0]) and isList(params[0]) {

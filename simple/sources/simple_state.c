@@ -80,7 +80,7 @@ SIMPLE_API SimpleState * simple_state_new ( void )
 	if (sState->module_paths != NULL) {
 		simple_list_addstring_gc(sState,sState->module_paths,"./modules/");
 		/* */
-		snprintf(module_path, sizeof(module_path), "%s/modules/", simple_file_initial_dir);
+		snprintf(module_path, sizeof(module_path), "%s/../modules/", simple_file_initial_dir);
 		simple_list_addstring_gc(sState,sState->module_paths,module_path);
 		/* */
 		simple_distro_folder(module_path);
@@ -111,6 +111,8 @@ SIMPLE_API SimpleState * simple_state_new ( void )
 				this initalization. call simple_add_android_paths(SimpleState *sState) in android.
 			*/
 		#else
+			snprintf(module_path, sizeof(module_path), "/var/lib/simple/s%s/modules/", SIMPLE_VERSION);
+			simple_list_addstring_gc(sState,sState->module_paths,module_path);
 			snprintf(module_path, sizeof(module_path), "%s/var/lib/simple/s%s/modules/", getenv("PREFIX"), SIMPLE_VERSION);
 			simple_list_addstring_gc(sState,sState->module_paths,module_path);
 		#endif

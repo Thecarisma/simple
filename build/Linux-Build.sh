@@ -3,16 +3,16 @@
 clear
 
 exec_type=""
-build_arc="x86"
-ver=0.3.36
+build_arc="x64"
+ver=0.4.0
 keep_dist="false"
 version=s"$ver"
 simple_debug_version=$version-debug
 fulltick_build_issue="<https://github.com/simple-lang/simple/issues/16>"
-arc_var=-m32
-arc=32
-operating_system="linux_x86"
-cpu_arc="x86"
+arc_var=-m64
+arc=64
+operating_system="linux_x64"
+cpu_arc="x64"
 
 execute_build() {
 	check_if_is_sudo $@
@@ -67,7 +67,7 @@ execute_build() {
 			"-mo"|"--modules-only")
 				standalone_flag="modules-only"
 				;;
-			"-o"|"--environment-only")
+			"-eo"|"--environment-only")
 				standalone_flag="environment-only"
 				;;
 			*)
@@ -140,34 +140,41 @@ execute_build_proceed() {
 }
 
 build_environments() {
-	header $1 "preparing to install simple-lang environments"
+    header $1 "preparing to install simple-lang environments"
 	cd ../build
-	if [ -e ../environment/Linux-Install.mk ]; then
-		local simple_command="simple"
-		case $1 in
-			*debug* )
-				cd "../../$simple_debug_version/bin/"
-				sudo mkdir -p ../lib/
-				sudo cp ./simple.so ../lib/
-				local simple_command="./$simple_command"
-				sudo rm -f ./bake && sudo rm -f ./modular && sudo rm -f ./webworker && sudo rm -f ./simplerepl && sudo rm -f ./simplepad && sudo rm -f ./simplebridge
-				sudo make -f ../../simple/environment/Linux-Install.mk ARC_FLAG=$arc_var ARC=$arc ENV_DISTDIR=./  SIMPLE_H=../../../$simple_debug_version/include/simple.h SIMPLE=$simple_command SUDO=sudo ENV_PATH=../../simple/environment/ LIB_PATH=../lib/simple.so
-				cd "../../simple/build/"
-			;;
-			*install* )
-				cd ../environment/
-				sudo make -f ./Linux-Install.mk SIMPLE=$simple_command ARC_FLAG=$arc_var ARC=$arc 
-				if [ -e ./dist/bake ]; then
-					sudo make -f ./Linux-Install.mk uninstall
-					sudo make -f ./Linux-Install.mk install
-				else
-					display_error $1 "installation of simple-lang environment fail"
-				fi
-			;;
-		esac
-	else 
-		not_found_error $1 "./environment/Linux-Install.mk"
-	fi
+	build_environment_in_loop $1 bake simplerepl
+}
+
+build_environment_in_loop() {	
+	
+	case $1 in
+		*debug* )
+			cd "../../$simple_debug_version/bin/"
+			shift ;
+			local simple_command="../../$simple_debug_version/bin/simple"
+			for param in "$@"
+	        do
+	            echo $param
+	            build_single_environment $simple_command ../../simple/environment/bake/bake.sim $cpu_arc ../../simple/environment/$param/$param.sim --simple="../../$simple_debug_version/bin/" --include="\"$PWD/../include/simple.h\""
+	        done 
+			cd "../../simple/build/"
+		;;
+		*install* )
+		    shift ;
+		    local simple_command="simple"
+			cd ../environment/
+		    for param in "$@"
+	        do
+	            echo $param
+	            build_single_environment simple ./bake/bake.sim $cpu_arc ./$param/$param.sim
+	        done 
+			
+		;;
+	esac
+}
+
+build_single_environment(){
+    sudo $1 $2 $4 $3 --install $5 $6 $7
 }
 
 copymodules() {
@@ -247,26 +254,26 @@ build_dynamic_modules(){
 			fi
 			sudo make -f Makefile-Linux.mk uninstall  ARC_FLAG=$arc_var ARC=$arc
 			sudo make -f Makefile-Linux.mk  ARC_FLAG=$arc_var ARC=$arc
-
-			# fulltick(GUI) dynamic_module
-				display "dynamic_modules:fulltick:" "checking if fulltick build successfully"
-			if [ -e ../dist/fulltick.so ]; then
-				display "dynamic_modules:fulltick:" "fulltick dynamic module built successfully"
+			
+			# libfulltick(GUI) dynamic_module
+				display "dynamic_modules:libfulltick:" "checking if libfulltick build successfully"
+			if [ -e ../dist/libfulltick.so ]; then
+				display "dynamic_modules:libfulltick:" "libfulltick dynamic module built successfully"
 			else
-				echo "error:dynamic_modules:fulltick: fulltick dynamic module build failed"
-				echo "error:dynamic_modules:fulltick: fulltick build is sure to fail if you don't have fltk library installed or it is not configured as shared library"
-				echo "error:dynamic_modules:fulltick: visit $fulltick_build_issue for build instruction"
-				echo "dynamic_modules:fulltick: falling back on available backup build."
-				if [ -e ../fulltick/dist/fulltick$arc.so ]; then
-					echo "dynamic_modules:fulltick: backup build found but might be outdated"
-					echo "dynamic_modules:fulltick: copying fulltick.so to ../dist/ directory"
-					cp ../fulltick/dist/fulltick$arc.so ../dist/
-					link ../dist/fulltick$arc.so ../dist/fulltick.so
+				echo "error:dynamic_modules:libfulltick: libfulltick dynamic module build failed"
+				echo "error:dynamic_modules:libfulltick: libfulltick build is sure to fail if you don't have fltk library installed or it is not configured as shared library"
+				echo "error:dynamic_modules:libfulltick: visit $fulltick_build_issue for build instruction"
+				echo "dynamic_modules:flibulltick: falling back on available backup build."
+				if [ -e ../fulltick/dist/libfulltick$arc.so ]; then
+					echo "dynamic_modules:libfulltick: backup build found but might be outdated"
+					echo "dynamic_modules:libfulltick: copying libfulltick.so to ../dist/ directory"
+					cp ../fulltick/dist/libfulltick$arc.so ../dist/
+					mv ../dist/libfulltick$arc.so ../dist/libfulltick.so
 				else
-					echo "error:dynamic_modules:fulltick: the backup fulltick dynamic module cannot be found"
-					echo "error:dynamic_modules:fulltick: the repository appears to be currupted. "
-					echo "error:dynamic_modules:fulltick: try clonning the simple repository again to resolve the issue"
-					echo "error:dynamic_modules:fulltick: or visit $fulltick_build_issue to build instruction"
+					echo "error:dynamic_modules:libfulltick: the backup libfulltick dynamic module cannot be found"
+					echo "error:dynamic_modules:libfulltick: the repository appears to be currupted. "
+					echo "error:dynamic_modules:libfulltick: try clonning the simple repository again to resolve the issue"
+					echo "error:dynamic_modules:libfulltick: or visit $fulltick_build_issue to build instruction"
 				fi
 			fi
 			cd ../
@@ -312,7 +319,11 @@ installsimpleexec() {
 			display $1 "uninstalling previous simple object build"
 			sudo rm -r ../dist/
 		fi
-		sudo make -f Makefile-Linux.mk uninstall ARC_FLAG=$arc_var ARC=$arc
+		case $1 in
+		    *notanyofit* )
+		        sudo make -f Makefile-Linux.mk uninstall ARC_FLAG=$arc_var ARC=$arc
+		    ;;
+		esac
 		sudo make -f Makefile-Linux.mk ARC_FLAG=$arc_var ARC=$arc
 	else 
 		not_found_error $1 Makefile-Linux.mk
@@ -327,7 +338,8 @@ installsimpleexec() {
 			sudo mkdir "../../../$simple_debug_version/bin"
 			if [ -e "../dist/simple" ]; then
 				sudo cp "../dist/simple" "../../../$simple_debug_version/bin"
-				sudo cp "../dist/simple.so" "../../../$simple_debug_version/bin"
+				sudo cp "../dist/libsimple.so" "../../../$simple_debug_version/bin"
+				sudo cp "../dist/libsimple.a" "../../../$simple_debug_version/bin"
 			else
 				build_failed_error $1 "simple and simple.so"
 			fi
@@ -343,12 +355,12 @@ copyinclude() {
 	header $1 "copying the simple includes(h) file "
 	case $1 in
 		*debug* )
-			if [ -e "../../$simple_debug_version/includes" ]; then 
-				sudo rm -R -f "../../$simple_debug_version/includes"
+			if [ -e "../../$simple_debug_version/include" ]; then 
+				sudo rm -R -f "../../$simple_debug_version/include"
 			fi
-			sudo mkdir "../../$simple_debug_version/includes"
-			if [ -e "../simple/includes" ]; then
-				sudo cp -R "../simple/includes" "../../$simple_debug_version/"
+			sudo mkdir "../../$simple_debug_version/include"
+			if [ -e "../simple/include" ]; then
+				sudo cp -R "../simple/include" "../../$simple_debug_version/"
 			else
 				not_found_error $1 "includes directory"
 			fi
@@ -359,7 +371,7 @@ copyinclude() {
 				sudo rm -R -f "$prefix/include/simple"
 			fi
 			sudo mkdir "$prefix/include/simple"
-			if [ -e "../simple/includes" ]; then
+			if [ -e "../simple/include" ]; then
 				sudo install ../simple/include/simple* "$prefix/include/simple"
 			else
 				not_found_error $1 "includes directory"
@@ -382,14 +394,15 @@ not_found_error() {
 uninstall() {
 	local prefix=${DESTDIR}${PREFIX:-/usr/}
 	header uninstall "removing simple $version from the system"
-	echo "simple-lang:menu: removing simplepad menu entry"
-	sudo rm -f ~/.local/share/applications/simplepad.desktop
+	echo "simple-lang:menu: removing simplerepl menu entry"
+	sudo rm -f ~/.local/share/applications/simplerepl.desktop
 	header uninstall "unlinking environment and library"
-	unlink ~/Desktop/simplepad
+	unlink ~/Desktop/simplerepl
 	sudo unlink $prefix/lib/libsimple.$ver.so
 	sudo unlink $prefix/lib/libsimple.so
 	sudo unlink /lib/libsimple.$ver.so
 	sudo unlink /lib/libsimple.so
+	sudo unlink /lib/libsimple.a
 	sudo unlink /usr/local/lib/libsimple.$ver.so
 	sudo unlink /usr/local/lib/libsimple.so 
 	header uninstall "uninstalling simple-lang core executables"
@@ -398,7 +411,8 @@ uninstall() {
 	cd ../../build 
 	header uninstall "uninstalling simple-lang environments"
 	cd ../environment
-	sudo make -f Linux-Install.mk uninstall
+	sudo unlink $prefix/bin/bake
+	sudo unlink $prefix/bin/simplerepl
 	cd ../build
 	header uninstall "uninstalling simple-lang modules"
 	cd ../modules/dynamic_modules/makefiles 
@@ -411,7 +425,7 @@ uninstall() {
 configure() {
 	header configure "configure build $version"
 	sudo apt-get update
-	sudo apt-get -y install build-essential
+	sudo apt-get -y install build-essential g++
 	case $cpu_arc in
 			*64* )
 				sudo apt-get -y install gcc-multilib
@@ -570,35 +584,35 @@ finalize_installation() {
 	sudo link $prefix/lib/simple.so $prefix/lib/libsimple.$ver.so
 	sudo link $prefix/lib/simple.so $prefix/local/lib/libsimple.so
 	sudo link $prefix/lib/simple.so $prefix/local/lib/libsimple.$ver.so
-	display link "linking simplepad to user ~/Desktop"
-	sudo link $prefix/bin/simplepad ~/Desktop/simplepad
+	display link "linking simplerepl to user ~/Desktop"
+	sudo link $prefix/bin/simplerepl ~/Desktop/simplerepl
 
-	header link "add simplepad to the system menu"
-	sudo echo "[Desktop Entry]" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Version=1.0" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Type=Application" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Name=Simple Pad" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "GenericName=Awesome App" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Icon=/var/lib/simple/$version/resources/simplepad.png" >> ~/.local/share/applications/simplepad.desktop
-	if [ -e $prefix/bin/simplepad ]; then
-		sudo echo "Exec=$prefix/bin/simplepad" >> ~/.local/share/applications/simplepad.desktop
-	elif [ -e /usr/local/bin/simplepad ]; then
-		sudo echo "Exec=/usr/local/bin/simplepad" >> ~/.local/share/applications/simplepad.desktop
-	elif [ -e /bin/simplepad ]; then
-		sudo echo "Exec=/bin/simplepad" >> ~/.local/share/applications/simplepad.desktop
+	header link "add simplerepl to the system menu"
+	sudo echo "[Desktop Entry]" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Version=1.0" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Type=Application" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Name=Simple Pad" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "GenericName=Awesome App" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Icon=/var/lib/simple/$version/resources/simplerepl.png" >> ~/.local/share/applications/simplerepl.desktop
+	if [ -e $prefix/bin/simplerepl ]; then
+		sudo echo "Exec=$prefix/bin/simplerepl" >> ~/.local/share/applications/simplerepl.desktop
+	elif [ -e /usr/local/bin/simplerepl ]; then
+		sudo echo "Exec=/usr/local/bin/simplerepl" >> ~/.local/share/applications/simplerepl.desktop
+	elif [ -e /bin/simplerepl ]; then
+		sudo echo "Exec=/bin/simplerepl" >> ~/.local/share/applications/simplerepl.desktop
 	else
-		sudo echo "Exec=simplepad" >> ~/.local/share/applications/simplepad.desktop
+		sudo echo "Exec=simplerepl" >> ~/.local/share/applications/simplerepl.desktop
 	fi
-	sudo echo "Comment=Simple Pad code simple-lang with ease" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Categories=Development;IDE;" >> ~/.local/share/applications/simplepad.desktop
-	sudo echo "Terminal=false" >> ~/.local/share/applications/simplepad.desktop
+	sudo echo "Comment=Simple Pad code simple-lang with ease" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Categories=Development;IDE;" >> ~/.local/share/applications/simplerepl.desktop
+	sudo echo "Terminal=false" >> ~/.local/share/applications/simplerepl.desktop
 
 	echo "======================================="
 
 	echo "  Minifying Source code for modules   "
 	
 	echo "======================================="
-	minifier -s /var/lib/simple/s0.3.36/modules -y
+	minifier -s /var/lib/simple/s0.4.0/modules -y
 
 	header build "testing installtion > simple" 
 	# echo treat_first_calls_file()
@@ -608,6 +622,7 @@ finalize_installation() {
 
 build_deb_package() {
 	debpackagedir=../../simple$ver-$operating_system
+	arc_var="none" #nope
 	header debpackage "creating a distributable .deb package"
 	if [ -e "$debpackagedir" ]; then
 		sudo rm -R -f "$debpackagedir"
@@ -632,7 +647,7 @@ build_deb_package() {
 		*debug* )
 			sudo cp ../../$simple_debug_version/bin/simple $debpackagedir/usr/bin/
 			sudo cp ../../$simple_debug_version/bin/simplerepl $debpackagedir/usr/bin/
-			sudo cp ../../$simple_debug_version/bin/simplepad $debpackagedir/usr/bin/
+			sudo cp ../../$simple_debug_version/bin/simplerepl $debpackagedir/usr/bin/
 			sudo cp ../../$simple_debug_version/bin/simplebridge $debpackagedir/usr/bin/
 			sudo cp ../../$simple_debug_version/bin/modular $debpackagedir/usr/bin/
 			sudo cp ../../$simple_debug_version/bin/webworker $debpackagedir/usr/bin/
@@ -663,24 +678,22 @@ build_deb_package() {
 			local prefix=${DESTDIR}${PREFIX:-/usr/}
 			sudo cp $prefix/bin/simple $debpackagedir/usr/bin/
 			sudo cp $prefix/bin/simplerepl $debpackagedir/usr/bin/
-			sudo cp $prefix/bin/simplepad $debpackagedir/usr/bin/
-			sudo cp $prefix/bin/simplebridge $debpackagedir/usr/bin/
-			sudo cp $prefix/bin/modular $debpackagedir/usr/bin/
-			sudo cp $prefix/bin/webworker $debpackagedir/usr/bin/
 			sudo cp $prefix/bin/bake $debpackagedir/usr/bin/
 			sudo cp $prefix/lib/simple.so $debpackagedir/usr/lib/
 			sudo cp $prefix/lib/libsimple.so $debpackagedir/usr/lib/
+			sudo cp $prefix/lib/libsimple.a $debpackagedir/usr/lib/
 			sudo cp -R /var/lib/simple/$version $debpackagedir/var/lib/simple/
 			sudo install $prefix/include/simple/simple* $debpackagedir/usr/include/simple/
 			
 			if [ $arc_var = "-m32" ]; then
 				sudo mkdir -p "$debpackagedir/usr/lib/i386-linux-gnu/"
-				sudo cp $prefix/lib/simple.so $debpackagedir/usr/lib/i386-linux-gnu/libsimple.so.$ver
+				#sudo cp $prefix/lib/simple.so $debpackagedir/usr/lib/i386-linux-gnu/libsimple.so.$ver
 			elif [ $arc_var = "-m64" ]; then
 				sudo mkdir -p "$debpackagedir/usr/lib/x86_64-linux-gnu/"
-				sudo cp $prefix/lib/simple.so $debpackagedir/usr/lib/x86_64-linux-gnu/libsimple.so.$ver
+				#sudo cp $prefix/lib/simple.so $debpackagedir/usr/lib/x86_64-linux-gnu/libsimple.so.$ver
 			fi  
 			
+			#no moving with libcrypto
 			local libcrypto=$(find_dependent_lib /var/lib/simple/$version/modules/dynamic_modules/security.so libcrypto)
 			if [[ "$libcrypto" = *"i386-linux-gnu"* ]]; then
 				sudo mkdir "$debpackagedir/usr/lib/i386-linux-gnu/"
@@ -693,7 +706,7 @@ build_deb_package() {
 	esac
 
 	display debpackage "creating 'control' file"
-	sudo echo "Package: simple-lang-s$ver" >> $debpackagedir/DEBIAN/control
+	sudo echo "Package: simple$ver" >> $debpackagedir/DEBIAN/control
 	sudo echo "Version: $ver" >> $debpackagedir/DEBIAN/control
 	sudo echo "Essential: no" >> $debpackagedir/DEBIAN/control
 	sudo echo "Section: development" >> $debpackagedir/DEBIAN/control
@@ -714,24 +727,24 @@ build_deb_package() {
 	echo "mkdir -p ~/.local/" >> $debpackagedir/DEBIAN/postinst
 	echo "mkdir -p ~/.local/share/" >> $debpackagedir/DEBIAN/postinst
 	echo "mkdir -p ~/.local/share/applications/" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"[Desktop Entry]\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Version=1.0\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Type=Application\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Name=Simple Pad\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"GenericName=Awesome App\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Icon=/var/lib/simple/$version/resources/simplepad.png\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "if [ -e $prefix/bin/simplepad ]; then" >> $debpackagedir/DEBIAN/postinst
-	echo "	sudo echo \"Exec=$prefix/bin/simplepad\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "elif [ -e /usr/local/bin/simplepad ]; then" >> $debpackagedir/DEBIAN/postinst
-	echo "	sudo echo \"Exec=/usr/local/bin/simplepad\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "elif [ -e /bin/simplepad ]; then" >> $debpackagedir/DEBIAN/postinst
-	echo "	sudo echo \"Exec=/bin/simplepad\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"[Desktop Entry]\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Version=0.1\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Type=Application\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Name=Simple Repl\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"GenericName=Awesome App\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Icon=/var/lib/simple/$version/resources/simplerepl.png\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "if [ -e $prefix/bin/simplerepl ]; then" >> $debpackagedir/DEBIAN/postinst
+	echo "	sudo echo \"Exec=$prefix/bin/simplerepl\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "elif [ -e /usr/local/bin/simplerepl ]; then" >> $debpackagedir/DEBIAN/postinst
+	echo "	sudo echo \"Exec=/usr/local/bin/simplerepl\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "elif [ -e /bin/simplerepl ]; then" >> $debpackagedir/DEBIAN/postinst
+	echo "	sudo echo \"Exec=/bin/simplerepl\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
 	echo "else" >> $debpackagedir/DEBIAN/postinst
-	echo "	sudo echo \"Exec=simplepad\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "	sudo echo \"Exec=simplerepl\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
 	echo "fi" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Comment=Simple Pad code simple-lang with ease\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Categories=Development;IDE;\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
-	echo "sudo echo \"Terminal=false\" >> ~/.local/share/applications/simplepad.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Comment=Simple Pad code simple-lang with ease\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Categories=Development;IDE;\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
+	echo "sudo echo \"Terminal=false\" >> ~/.local/share/applications/simplerepl.desktop" >> $debpackagedir/DEBIAN/postinst
 	
 	sudo chmod 755 $debpackagedir/DEBIAN/postinst
 		
@@ -765,6 +778,6 @@ execute_build $@
 exit 0
 
 #ma5lata3na1ta34na1la pa4sata1la sa2rava3ca2
-#naga wa4rakasa garata
+#naga wa4rakasa garata shhhh
 #
 

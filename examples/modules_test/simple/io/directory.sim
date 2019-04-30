@@ -1,0 +1,17 @@
+/* 
+	Copyright (c) 2017-2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple 
+
+*/
+from simple.core.Object
+from simple.io.File
+from simple.util.Console
+
+block main() 
+	directory = new Directory("../../../testfiles/testDirectory")
+	stdout.println(directory)
+	stdout.println("Create Folder : " + directory.create())
+	stdout.println("Folder Exists : " + directory.exists())
+	stdout.println("Move Folder : " + directory.moveTo("../../../", true))
+	stdout.println(directory)
+	stdout.println("Delete Folder : " + directory.deleteRecursive())

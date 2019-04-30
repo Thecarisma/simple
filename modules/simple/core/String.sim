@@ -13,15 +13,15 @@
 /*
 
 */
-call simple.core.Object
-call simple.core.List
-call simple.core.Number
-call simple.utilities.Conversion
-call simple.core.DynamicLoader
-call simple.debugging.Throw
-call simple.reflection.Class
-call simple.reflection.Field
-call simple.utilities.Type
+from simple.core.Object
+from simple.core.List
+from simple.core.Number
+from simple.util.Conversion
+from simple.core.DynamicLoader
+from simple.debugging.Throw
+from simple.reflection.Class
+from simple.reflection.Field
+from simple.util.Type
 callModule("libstring_savant")
  
 /*
@@ -47,7 +47,7 @@ block strValueOf(object)
 		val = "(null)"
 		
 	elif isString(object) 
-		val = unEscapeString(object)
+		val = object #look again
 		
 	elif isNumber(object)
 		if object == true {
@@ -78,6 +78,24 @@ block strValueOf(object)
 		
 	}
 	return val
+	
+/*
+
+*/
+block hexDigit(char next)
+	v1 = __char_to_number(next) - __char_to_number('0')
+	v2 = __char_to_number(next) - __char_to_number('A') + H('0xA')
+	v3 = __char_to_number(next) - __char_to_number('a') + H('0xA')
+	if v1 >= 0 and v1 <= 9 {
+		return v1
+	}
+	if v2 >= H('0xA') and v2 <= H('0xF') {
+		return v2
+	}
+	if v3 >= H('0xA') and v3 <= H('0xF') {
+		return v3
+	}
+	throw("simple.core:hexDigit", "Syntax Error : non-hexadecimal digit '" + next + "' in Unicode escape sequence")
 	
 /*
 	Format the literal value to be printed in the output into the standard C Format with escape sequences. simple-lang
@@ -114,23 +132,48 @@ block strValueOf(object)
 	
 	@Return the formated literal @DataType String
 	
-*/#temporary
-#look into JsonParser for escaping string
-block unEscapeString(val)
-	val = replaceStr(val, "\a", ascii(07))
-	val = replaceStr(val, "\007", ascii(07))
-	val = replaceStr(val, "\b", ascii(08))
-	val = replaceStr(val, "\f", ascii(12))
-	val = replaceStr(val, "\n", ascii(10))
-	val = replaceStr(val, "\r", ascii(13))
-	#val = replaceStr(val, "\t", ascii(09))
-	val = replaceStr(val, "\v", ascii(11))
-	val = replaceStr(val, "\\", ascii(92))
-	val = replaceStr(val, "\'", ascii(27))
-	val = replaceStr(val, '\"', ascii(22))
-	val = replaceStr(val, '\?', ascii(63))
-	#val = replaceStr(val, '\e', ascii(27))
-	return val
+*/
+block unEscapeString(string str)
+	newStr = ""
+	strLen = lengthOf(str) - 1
+	
+	for a = 0 to strLen {
+		switch str[a] {
+			case '\'
+				a++
+				switch str[a] {
+					case '"'
+						newStr += '"'
+					case '\'
+						newStr += '\'
+					case '/'
+						newStr += ascii(47)
+					case 'b'
+						newStr += ascii(08)
+					case 'f'
+						newStr += ascii(12)
+					case 'n'
+						newStr += ascii(10)
+					case 'r'
+						newStr += ascii(13)
+					case 't'
+						newStr += ascii(09)
+					case 'v'
+						newStr += ascii(11)
+					case 'u'
+						uchar = [hexDigit(str[a+1]), hexDigit(str[a+2]), hexDigit(str[a+3]), hexDigit(str[a+4])]
+						a += 4
+						newStr += ascii((uchar[0] << 12) | (uchar[1] << 8) | (uchar[2] << 4) | (uchar[3]))
+					default
+						throw("simple.core:unEscapeString", "Illegal escape sequence in string escape sequence : " + str[a])
+						return null
+				}
+			default 
+				newStr += str[a]
+		}
+		
+	}
+	return newStr
 	
 /*
 
@@ -141,6 +184,8 @@ block escapeString(string str)
 	for a = 0 to strLen {
 		cp = __char_to_number(str[a]) 
 		switch cp {
+			case 39
+				nStr += "\'"
 			case 34
 				nStr += '\"'
 			case 92
@@ -153,6 +198,8 @@ block escapeString(string str)
 				nStr += "\t"
 			case 08
 				nStr += "\b"
+			case 11
+				nStr += "\v"
 			case 12
 				nStr += "\f"
 			default
@@ -222,8 +269,7 @@ block strFormat(params...)
 				finalValue += val
 		}
 	}
-	finalValue = unEscapeString(finalValue)
-	return finalValue
+	return unEscapeString(finalValue)
 	
 /*
 
@@ -578,7 +624,7 @@ block trimStr(object)
 		
 		for i = objectLen to 0 step - 1 {
 			char = object[i]
-			if char == " "  or char == ascii(09) {
+			if char == " "  or char == ascii(09) or char == ascii(10) {
 				limit++
 			else
 				break
@@ -858,7 +904,7 @@ block lastStrAfter(str value, str suffix)
 		throw("simple.core:lastStrAfterChar","None of the parameter can be (null)")
 	}
 	
-block strAfterLast(str, lst)
+block strAfterChar(str, lst)
 	count = 0 ret = ""
 	for x = lengthOf(str) - 1 to 0 step -1
 		if str[x] == lst
@@ -901,7 +947,7 @@ block strSplit(content, delimiter)
 	end
 	content = trimStr(content)
 	# Need to write a StringToList function as this gives an erroneous response.
-	return __string_to_list(__substr(content, delimiter, crlf)) 
+	return __string_to_list(__substr(content, delimiter, nl)) 
 	
 /*
 
@@ -921,7 +967,7 @@ class String : Object
 	/*
 
 	*/
-	block String(params...)
+	block init(params...)
 		paramsLen = lengthOf(params)
 
 		if paramsLen == 0 {
@@ -1096,6 +1142,8 @@ class String : Object
 				return !equals(value)
 			case "+"
 				return concat(value)
+			case "[]"
+				return Value[value]
 			case "*"
 				val = ""
 				count = numberValue(value)

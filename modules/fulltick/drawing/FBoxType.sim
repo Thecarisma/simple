@@ -2,10 +2,10 @@
 /*
 
 */
-call fulltick.base.FWidget
-call fulltick.painting.FColor
-call fulltick.objects.FBorder
-import simple.core, simple.system, simple.utilities
+from fulltick.base.FWidget
+from fulltick.painting.FColor
+from fulltick.objects.FBorder
+import simple.core, simple.system, simple.util
 
 /*
 
@@ -45,7 +45,7 @@ class FBoxType : Object
     /*
 
     */
-    block FBoxType(params...)
+    block init(params...)
         paramsLen = lengthOf(params)
 
         if paramsLen == 0 {

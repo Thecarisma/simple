@@ -1,0 +1,44 @@
+ 
+ 
+from parser.json.JsonObject
+from parser.json.JsonArray
+from simple.io.loadfilesavantlib
+import simple.core
+
+object = new JsonObject() {
+	add("Version", simpleVersion())
+	add("Date Updated", null)
+	add("Update Message", "Hello World this is simple the main thingy")
+	
+	updates = new JsonArray {
+		majorUpdate = new JsonObject() {
+			add("Name", "simple-lang")
+			add("Type", "link")
+			add("Update Url", "http://localhost/simple-lang/updater/")
+			add("Installation Path", null)
+		}
+		#add(majorUpdate)
+		modules = new JsonObject() {
+			add("Name", "Modules")
+			add("Type", "zip")
+			
+			add("Windows",
+				new JsonObject() {
+					add("Update Url", "http://localhost/simple-lang/updater/modules.zip")
+					add("Installation Path", "/modules/")
+				}
+			)
+			add("Linux",
+				new JsonObject() {
+					add("Update Url", "http://localhost/simple-lang/updater/modules.zip")
+					add("Installation Path", "/modules/")
+				}
+			)
+		}
+		add(modules)
+	}
+	add("Updates",updates)
+	__write_file("../../examples/testfiles/update_file.json",toString())
+}
+
+

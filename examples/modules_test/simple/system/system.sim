@@ -1,0 +1,33 @@
+/* 
+	Copyright (c) 2017-2018 Azeez Adewale <azeezadewale98@gmail.com> 
+	MIT License Copyright (c) 2018 simple 
+
+*/
+
+from "simple/system/Runtime.sim"
+from "simple/system/System.sim"
+from "simple/core/String.sim"
+
+block main() 
+	display "========================================================================
+			SYSTEM	
+========================================================================"+crlf
+	display getOS() + getNewLine() /*+ "ACTIVE SOURCE FILE : "+currentFileName()+crlf*/
+	display getEnv("SIMPLE_PATH")
+	display commandLineParameters()
+	display "CLPS : "+commandLineParametersSize() + crlf + "CURRENT DIRECTORY : "+currentDirectory() + crlf
+	changeDirectory("C:/Users/thecarisma/Documents")
+	display "NEW CURRENT DIRECTORY : "+currentDirectory() + crlf
+	display "SYSTEM DIR : "+systemDirectory()+" | VERSION : "+systemVersion() + crlf
+	display "USER : "+systemUser()+" | USER HOME : "+userHome() + crlf
+	display "MACHINE NAME : "+machineName() + crlf  #exit(0)
+	if isWindowNT() display "yea it window nt "+crlf end
+	display "USER DOMAIN : "+userDomain()+crlf
+	sleep(2000) beep(1000, 400)
+	display "========================================================================
+			RUNTIME	
+========================================================================"+crlf
+	
+	Runtime.executeWithParameter(exeFilePath(), "-l")
+	Runtime.execute(exeFilePath())
+	

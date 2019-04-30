@@ -18,7 +18,7 @@ bool CallbackStruct::ret_evt_to_fl = true;
 /** the callback delegate for the fulltick library **/
 void SimpleCallBack(Fl_Widget*, void* ptr_index) {
     char code_block[30];
-    snprintf(code_block, sizeof(code_block), "__fltk_current_widget_id=%i ", (int)ptr_index);
+    snprintf(code_block, sizeof(code_block), "__fltk_current_widget_id=%i ", (int)(size_t)ptr_index);
     simple_vm_runcode(((SimpleState *)CallbackStruct::_sState)->vm, code_block); 
     simple_vm_callblock(((SimpleState *)CallbackStruct::_sState)->vm,"__fltk_widget_callback");
 }
@@ -26,7 +26,7 @@ void SimpleCallBack(Fl_Widget*, void* ptr_index) {
 /** the menu callback delegate for the fulltick library **/
 void SimpleMenuCallBack(Fl_Widget*, void* ptr_index) {
     char code_block[30];
-    snprintf(code_block, sizeof(code_block), "__fltk_current_menu_index=%i ", (int)ptr_index);
+    snprintf(code_block, sizeof(code_block), "__fltk_current_menu_index=%i ", (int)(size_t)ptr_index);
     simple_vm_runcode(((SimpleState *)CallbackStruct::_sState)->vm, code_block); 
     simple_vm_callblock(((SimpleState *)CallbackStruct::_sState)->vm,"__fltk_widget_menu_callback");
 }
@@ -36,10 +36,13 @@ void SimpleMenuCallBack(Fl_Widget*, void* ptr_index) {
 	Handle this function with care. PLEASE.
 	Also handle event in the FApp file in the
 	fulltick module
+	
+	80 character is wide enough to contain the variables 
+	and it values 
 */
 int simple_Fl_Event_Dispatch(int event, Fl_Window *window) {
-    char code_block[60];
-    snprintf(code_block, sizeof(code_block), "__fltk_current_event=%i __fltk_current_pointer='%p'", event, (void*)window); //printf("%p\n",(void*)window);
+    char code_block[80];
+    snprintf(code_block, sizeof(code_block), "__fltk_current_event=%i __fltk_current_pointer=`%p`", event, (void*)window); //printf("%p\n",(void*)window);
     simple_vm_runcode(((SimpleState *)CallbackStruct::_sState)->vm, code_block); 
     simple_vm_callblock(((SimpleState *)CallbackStruct::_sState)->vm,"__fltk_handle");//this line is crucial to our events
     if (CallbackStruct::ret_evt_to_fl == true)
@@ -27719,6 +27722,7 @@ SIMPLE_BLOCK(fltk_fl_add_io_callback)
 }
 
 /* fl_math */
+#ifdef USE_MATH_NAMES
 SIMPLE_BLOCK(fltk_rint)
 {
     double num1;
@@ -27742,6 +27746,7 @@ SIMPLE_BLOCK(fltk_copysign)
     num2 = (double) (double) SIMPLE_API_GETNUMBER(2);
     SIMPLE_API_RETNUMBER(copysign(num1,num2));
 }
+#endif
 
 /* x.H */
 #ifndef __ANDROID__
@@ -27753,7 +27758,11 @@ SIMPLE_BLOCK(fltk_fl_gc)
 
 SIMPLE_BLOCK(fltk_fl_window)
 {
-    SIMPLE_API_RETCPOINTER(fl_window,"SMOOTHC_FLTK");
+    #ifdef __APPLE__
+        SIMPLE_API_RETCPOINTER(NULL,"SMOOTHC_FLTK");
+    #else
+        SIMPLE_API_RETCPOINTER(fl_window,"SMOOTHC_FLTK");
+    #endif
 }
 
 SIMPLE_BLOCK(fltk_fl_clip_region_x)
@@ -30422,8 +30431,10 @@ SIMPLE_API void init_full_tick(SimpleState *sState)
     register_block("__fl_finish",fltk_fl_finish);
     register_block("__fl_add_io_callback",fltk_fl_add_io_callback);
     /* fl_math */
+#ifdef USE_MATH_NAMES
     register_block("__rint",fltk_rint);
     register_block("__copysign",fltk_copysign);
+#endif
     /* x.H */
 #ifndef __ANDROID__
     register_block("__fl_gc",fltk_fl_gc);

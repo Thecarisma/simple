@@ -1,9 +1,9 @@
 /*
 
 */
-call simple.core.Object
-call simple.utilities.Console
-call parser.json.JsonParser
+from simple.core.Object
+from simple.util.Console
+from parser.json.JsonParser
 
 block main()
 	news = loadNews()
@@ -24,7 +24,7 @@ block loadNews()
 		Category = "console"
 		Description = "Print to standard output and error stream, and read from standard stream"
 		Url = "http://simple-lang.github.io/simple-lang/console"
-		Tags = ["utilities", "console", "modules", "simple-lang"]
+		Tags = ["util", "console", "modules", "simple-lang"]
 	}
 	
 	

@@ -144,9 +144,15 @@
 #include <FL/glut.H>
 #include <FL/gl_draw.H>
 #endif
-#include <FL/math.H>
-#include <FL/names.H>
+#ifdef USE_MATH_NAMES
+//#include <FL/math.H>
+//#include <FL/names.H>
+#endif
 #include <FL/x.H>
+
+#ifndef free_color
+#define free_color(x,y) get_color(x) //we don't need it now
+#endif
 
 extern "C" {
 	#include "../../../simple/include/simple.h"
