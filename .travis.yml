@@ -11,4 +11,5 @@ before_script:
   #- sudo bash build/Linux-Build.sh -c
 
 script:
-  - sudo bash build/Linux-Build.sh x86 -i -so
+  - cd build/
+  - sudo bash Linux-Build.sh x86 -i -so
