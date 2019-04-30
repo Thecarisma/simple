@@ -2,15 +2,20 @@
 language: c
   
 os:
-  - linux
+  #- linux
+  - osx
 
 compiler:
   - gcc
   
 before_script:
-  - sudo bash build/Linux-Build.sh -c
+  -  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
+  -  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash build/Mac-Build.sh -c; fi
 
 script:
   - cd build/
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x64 -i; fi
+  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash Mac-Build.sh x86 -i; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo bash Mac-Build.sh x64 -i; fi
