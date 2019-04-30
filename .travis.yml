@@ -12,5 +12,5 @@ before_script:
 
 script:
   - cd build/
-  - sudo bash Linux-Build.sh x86 -i
-  - sudo bash Linux-Build.sh x64 -i
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x64 -i; fi
