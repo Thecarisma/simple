@@ -23,8 +23,8 @@ script:
   - cd build/
   
   #build for windows 
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then Windows-Build.bat x86 -i; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then Windows-Build.bat x64 -i; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x86 -d; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x64 -d; fi
   
   #build for linux 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
