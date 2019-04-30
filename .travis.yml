@@ -9,17 +9,20 @@ os:
 compiler:
   - gcc
   
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y mingw; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
+  
 before_script:
-  -  if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then build/Windows-Build.bat -c; fi
-  -  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
-  -  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash build/Mac-Build.sh -c; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then build/Windows-Build.bat -c; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash build/Mac-Build.sh -c; fi
 
 script:
   - cd build/
   
   #build for windows 
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then Windows-Build.bat x86 -i; fi
-  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then Windows-Build.bat x64 -i; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then Windows-Build.bat x64 -i; fi
   
   #build for linux 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi
