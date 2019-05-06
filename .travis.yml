@@ -2,7 +2,7 @@
 language: c
   
 os:
-  #- windows
+  - windows
   #- linux
   #- osx
 
@@ -18,7 +18,7 @@ before_install:
 before_script:
   #there is no need to configure build toolchain since travis CI comes with 
   #all needed mingw toolchain for building
-  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then build/Windows-Build.bat -c; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then build/Windows-Build.bat -c; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash build/Linux-Build.sh -c; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash build/Mac-Build.sh -c; fi
 
@@ -27,7 +27,7 @@ script:
   
   #build for windows 
   #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x86 -d --gnu; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x64 -d --gnu; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./Windows-Build.bat x64 -d --gnu; fi
   
   #build for linux 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo bash Linux-Build.sh x86 -i; fi

@@ -261,7 +261,7 @@ REM 	call:locategcc !BUILD_ARC!
 	SET NO_BUILDTOOL="false"
 )
 if !BUILD_TOOL!=="any" (
-	call:configure
+	call:configure-toolchain
 )
 if !NO_BUILDTOOL!=="true" (
 	echo error:simple-lang:configure: no C/C++ compiler to found 
@@ -387,9 +387,15 @@ exit /b %ERRORLEVEL%
 	echo ============================================================================
 	
 	exit /b 0
-
+	
 :configure
-	call:display configure "configure build %VERSION%"
+	call:display configure "download windows dependencies for build %VERSION%"
+	echo Download dependencies
+	
+	exit /b 0
+
+:configure-toolchain
+	call:display configure-toolchain "configure build %VERSION%"
 	echo simple-lang:configure:buildtool determining if a specific tool is specified
 	if !BUILD_TOOL!=="any" (
 		if !NO_BUILDTOOL!=="true" (
