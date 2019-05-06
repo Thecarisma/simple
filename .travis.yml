@@ -10,6 +10,7 @@ compiler:
   - gcc
   
 before_install:
+  - curl
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y mingw; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y make; fi
   
