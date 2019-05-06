@@ -11,9 +11,7 @@ compiler:
   
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y mingw; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y make; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y curl; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y openssl.light; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y make; fi
   
 before_script:
   #there is no need to configure build toolchain since travis CI comes with 

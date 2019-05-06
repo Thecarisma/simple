@@ -7,31 +7,31 @@
 	:time: 01:11 PM
 	:filename: ascii.sim
 */
-tab = ascii(9)
-isfirst = true
-issecond = false
 
 from simple.util.Console
 
-	stdout.printfc(ConsoleColor.BLUE, " ")
-	stdout.printfc(ConsoleColor.YELLOW, "\t\t\tAmerican Standard Code for Information Interchange (ASCII) Charaters\n")
-	stdout.printfc(ConsoleColor.MAGENTA, "\t\t\t\t\t  Author : Azeez Adewale\n")
-	stdout.printfc(ConsoleColor.RED, "\t\t\t\t   MIT License Copyright (c) 2018 SIMPLE \n")
-	#printLineWithColor(ConsoleColor.BLUE, null)
-	stdout.printfc(ConsoleColor.GREEN, "\tSN\t|\tDEC\t|\tSYMBLOL\t\t~\tSN\t|\tDEC\t|\tSYMBLOL\n")
-	stdout.printfc(ConsoleColor.BLUE, null)
+tab = Ascii(9)
+isfirst = true
+issecond = false
 
-for a = 0 to 400 #value can be changed
+stdout.Printfc(ConsoleColorBlue, " ")
+stdout.Printfc(ConsoleColorYellow, "\t\t\tAmerican Standard Code for Information Interchange (ASCII) Charaters\n")
+stdout.Printfc(ConsoleColorMagenta, "\t\t\t\t\t  Author : Azeez Adewale\n")
+stdout.Printfc(ConsoleColorRed, "\t\t\t\t   MIT License Copyright (c) 2018 SIMPLE \n")
+#PrintLineWithColor(ConsoleColor.BLUE, null)
+stdout.Printfc(ConsoleColorGreen, "\tSN\t|\tDEC\t|\tSYMBLOL\t\t~\tSN\t|\tDEC\t|\tSYMBLOL\n")
+
+for a = 100 to 150 #value can be changed
 	if isfirst 
-		display tab+a+tab+"|"+tab+"ascii("+a+")"+tab+"|"+tab+ascii(a)
+		display tab+a+tab+"|"+tab+"Ascii("+a+")"+tab+"|"+tab+Ascii(a)
 		isfirst = false issecond = true
 	elif issecond 
-		display tab+tab+"~"+tab+a+tab+"|"+tab+"ascii("+a+")"+tab+"|"+tab+ascii(a)+crlf
+		display tab+tab+"~"+tab+a+tab+"|"+tab+"Ascii("+a+")"+tab+"|"+tab+Ascii(a)+crlf
 		issecond = false isfirst = true
 	end
 end
 
 /*
-	ascii(8) - backspace
+	Ascii(8) - backspace
 
 */

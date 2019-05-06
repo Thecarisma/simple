@@ -1,0 +1,126 @@
+/*
+
+	This file correctly converts Method, Function declaration and call 
+	identifiers into valid PascalCase identifier.
+	
+	This script is used to change the identifier casing in 
+	simple-lang standard module to PascalCaseMethod.sim 
+	
+	It simply detect the open bracker **(** then read backward for the 
+	identifier once the Identifier is detected it find the location of 
+	the first letter in the identifier then change it to upper case. 	
+
+	:: 
+	
+		stdout.Println("Hello World")
+		
+	The length of the above text is 29, all the characters are added to the 
+	new value so the open brace is at offset 15 the new value will currently 
+	be `stdout.Println(` it then seek valid alphabet or num backward and break 
+	on non identifier character so we arrive at `nltnirp` so i reverse to 
+	`println`, the offset of `println` is 8 therefore the new value at offset 8
+	is changed to uppercase
+	
+	The script expect these flags
+	
+	:: 
+	
+		--dir='..' supply the directory to change case 
+	
+	:copyright: 2018-2019, Azeez Adewale
+	:license: MIT License Copyright (c) 2018 simple
+	:author: Azeez Adewale <azeezadewale98@gmail.com>
+	:date: 06 May 2019
+	:time: 12:37 AM
+	:filename: PascalCaseMethod.sim
+*/
+
+from simple.core.String
+from simple.io.Directory
+from simple.io.File
+from simple.util.console
+
+block main()
+	directory = null
+	for param in cmdparams
+		if StrStartsWith(param, "--dir=")
+			directory = new Directory(RemoveStr(param, "--dir="))
+		end		
+	end
+	
+	if IsNull(directory)
+		stderr.Printfc(ConsoleColorRed, "You need to supply the directory --dir='..'")
+		Exit(1)
+	end
+	ResolveFolder(directory, directory)
+	
+block ResolveFolder(Directory mainDirectory, Directory directory)
+	files = directory.GetFiles()
+	for file in files
+		if !StrEndsWith(file.Name, ".sim") continue end
+		stdout.Println("PascalCaseMethod: " + RemoveStr(file.AbsolutePath, mainDirectory.AbsolutePath))
+		ResolveFile(file)
+	end
+	
+	folders = directory.GetDirectories()
+	for folder in folders
+		if StrStartsWith(folder.Name, ".") continue end
+		stdout.Println("PascalCaseMethod:Directory " + RemoveStr(folder.AbsolutePath, mainDirectory.AbsolutePath))
+		ResolveFolder(mainDirectory, folder)
+	end
+	
+block ResolveFile(File file)
+	content = file.ReadAllString()
+	contentLen = LengthOf(content) - 1	
+	newContent = ""
+	
+	for a = 0 to contentLen
+		character = content[a]
+		newContent += character
+		if character == "("
+			methodName = ""
+			finalMethodName = ""
+			for b = a-1 to 0 step -1
+				if (IsAlphaNum(content[b]) or content[b] == '_' or content[b] == '$' ) or (IsWhiteSpace(content[b]) and (IsWhiteSpace(methodName) or methodName == ""))
+					methodName += content[b]
+
+				else
+					break
+				end
+			end
+			
+			methodNameLen = LengthOf(methodName) - 1
+			for c = 0 to methodNameLen
+				finalMethodName += methodName[(methodNameLen - c)]
+			end			
+			if StrTrim(finalMethodName) == 'or' or StrTrim(finalMethodName) == 'and' or StrTrim(finalMethodName) == 'to' or 
+					StrTrim(finalMethodName) == 'in' or StrTrim(finalMethodName) == 'if' or StrTrim(finalMethodName) == 'elif' or 
+						 StrTrim(finalMethodName) == 'for' or StrTrim(finalMethodName) == 'switch' or StrTrim(finalMethodName) == 'return' or 
+							 StrTrim(finalMethodName) == 'while'
+				continue
+			end
+			newContentLen = LengthOf(newContent) - 1
+			if newContent[(newContentLen - methodNameLen - 1)] != '('
+				newContent[(newContentLen - methodNameLen - 1)] = ToUpperCase(finalMethodName[0])
+			end
+			
+		end
+	end
+	file.Write(newContent)
+	
+block IsKeyword(string content, number contentLen, number a, string keyword) : boolean
+	keywordLen = LengthOf(keyword) - 1
+	word = ""
+	if (a + keywordLen) > contentLen return false end
+	for b = a to (a + keywordLen)
+		word += content[b]
+	end
+	return word == keyword
+	
+#unused
+block CapitalizeWord(string value) : string
+	value[0] = ToUpperCase(value[0])
+	return value
+	
+	
+	

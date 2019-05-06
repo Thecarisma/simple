@@ -3,12 +3,12 @@ cl = new Class()
 
 class Class : SuperClass
 
-	block initer()
+	block Initer()
 		display "now in child class " + nl
 
 class SuperClass
 
-	block init()
+	block Init()
 		display "from super class " + nl
 		
 		

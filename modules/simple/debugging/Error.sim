@@ -34,17 +34,17 @@ class Error : Object
 	/*
 	
 	*/
-	block init(Title,Message)
+	block Init(Title,Message)
 		this.Message = Message
 		this.Title = Title
 		
 	/*
 	
 	*/
-	block printStackTrace()
-		stackTraces = stackTrace()
+	block PrintStackTrace()
+		stackTraces = StackTrace()
 		for stackTrace in stackTraces {
-			stderr.println(stackTrace)
+			stderr.Println(stackTrace)
 		}
 		
 		

@@ -43,7 +43,7 @@ class rstBlock : Object
 	/*
 	
 	*/
-	block init(int type, string value)
+	block Init(int type, string value)
 		Type = type
 		TypeName = typeName[type]
 		Value = value
@@ -51,15 +51,15 @@ class rstBlock : Object
 	/*
 	
 	*/
-	block setType(int type)
+	block SetType(int type)
 		Type = type
 		TypeName = typeName[type]
 	
 	/*
 	
 	*/
-	block toString()
-		return "[" + getType(self) + ":Type=" + Type + ",TypeName=" + TypeName + ",Value="+strValueOf(Value)+"]"
+	block ToString()
+		return "[" + GetType(self) + ":Type=" + Type + ",TypeName=" + TypeName + ",Value="+StrValueOf(Value)+"]"
 		
 	/*
 	
