@@ -3,6 +3,9 @@
 
 <p style="text-align: center;" align="center">The Simple Intelligent and Modular Programming Language and Environment</p>
 
+# THIS REPOSITORY IS MAINLY FOR TESTING BEFORE A BREAKING CHANGE IS IMPLEMENTED IN THE MAIN REPO SIMPLE-LANG\SIMPLE 
+# DO NOT FORK, OPEN ISSUE OR CREATE PR HERE AT ALL
+
 ___
 
 | Platform / Architecture  | Build Status |
