@@ -2,7 +2,7 @@
 language: c
   
 os:
-  - windows
+  #- windows
   #- linux
   #- osx
 
@@ -10,9 +10,10 @@ compiler:
   - gcc
   
 before_install:
+  - wget --help
   - curl --help
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y mingw; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y make; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y mingw; export PATH=/c/tools/mingw64/bin:"$PATH"; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y make; fi
   
 before_script:
   #there is no need to configure build toolchain since travis CI comes with 
